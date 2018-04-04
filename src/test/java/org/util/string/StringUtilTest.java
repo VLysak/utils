@@ -8,4 +8,5 @@ public class StringUtilTest {
     public void testDoNothing() {
         System.out.println("This is a dummy test");
     }
+
 }
