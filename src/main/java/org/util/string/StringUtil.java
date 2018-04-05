@@ -1,4 +1,4 @@
-package main.java.string;
+package org.util.string;
 
 public class StringUtil {
 
