@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -430,7 +431,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
         if (builder.equals(o))
             return 0;
-        else if(builder.length() - o.toString().length() > 0)
+        else if (builder.length() - o.toString().length() > 0)
             return 1;
         else
             return -1;
@@ -449,6 +450,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
         private final StringBuilder builder;
         private final int cursor;
+        int current = 0;
 
 
         public BuilderIterator(StringBuilder builder) {
@@ -458,12 +460,17 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
         @Override
         public boolean hasNext() {
-            return false;
+            return current < builder.capacity();
         }
 
         @Override
         public Character next() {
-            return null;
+            char[] ch = builder.toString().toCharArray();
+
+            if (builder.capacity() > current)
+                return ch[current++];
+            else
+                throw new NoSuchElementException();
         }
     }
 
@@ -473,16 +480,29 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil remove(int from, int to) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder.delete(from, to));
     }
 
     // returns amount of occurences
     public int find(char value) {
-        throw new UnsupportedOperationException();
+        int count = 0;
+        for (char ch : builder.toString().toCharArray()) {
+            if (ch == value)
+                count++;
+        }
+        return count;
     }
 
     public int find(String value) {
-        throw new UnsupportedOperationException();
+
+        int count = 0;
+        int lastIndex = 0;
+        while ((lastIndex = builder.toString().indexOf(value, lastIndex)) != -1) {
+            count++;
+            lastIndex += value.length() ;
+        }
+
+        return count;
     }
 
     public int find(char[] value) {
@@ -709,6 +729,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         System.out.println(ab.get(1));
         System.out.println(a.insert(1, a));
         System.out.println(a.soundex());
+        System.out.println(a.find("a"));
 
     }
 }
