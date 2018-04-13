@@ -1,5 +1,3 @@
-import com.sun.org.apache.xerces.internal.util.MessageFormatter;
-
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Comparator;
@@ -30,6 +28,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
         // placeholder
         ;
+    }
+
+    private StringUtil() {
+        this.builder = new StringBuilder();
     }
 
     /**
@@ -116,8 +118,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil append(String data) {
-        // wrong - inefficient
-        return new StringUtil(builder.toString().concat(data));
+        StringUtil other = new StringUtil();
+        other.builder.append(builder);
+        other.builder.append(data);
+        return other;
     }
 
     /**
@@ -506,6 +510,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int find(char[] value) {
+
         throw new UnsupportedOperationException();
     }
 
