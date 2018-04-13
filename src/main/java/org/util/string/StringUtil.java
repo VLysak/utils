@@ -507,6 +507,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int find(char[] value) {
+
         throw new UnsupportedOperationException();
     }
 
