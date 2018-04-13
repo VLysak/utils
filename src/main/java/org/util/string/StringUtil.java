@@ -1,3 +1,5 @@
+package org.util.string;
+
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Comparator;
@@ -83,7 +85,6 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         this.builder = new StringBuilder().append(data);
     }
 
-
     /**
      * StringUtil constructor.
      * Initialize "StringBuilder builder" by concatenate "byte [] data"
@@ -91,7 +92,6 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @param data
      * @returns new StringUtil (byte [] data)
      */
-
 
     public StringUtil(byte[] data, Charset charset) {
         this(new String(data, charset));
@@ -107,15 +107,18 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil append(StringBuffer data) {
-        return new StringUtil(new StringBuilder(builder).append(data));
+        StringUtil other = new StringUtil();
+        other.builder.append(builder);
+        other.builder.append(data);
+        return other;
     }
 
     /**
-     * void append String data
-     * this method append String data to field StringBuilder builder
+     * this method returns new instance of StringUtil
+     * with append String data to field StringBuilder builder
      *
      * @param data
-     * @returns void
+     * @returns StringUtil
      */
     public StringUtil append(String data) {
         StringUtil other = new StringUtil();
@@ -133,10 +136,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil append(StringBuilder data) {
-        // wrong - inefficient
-        //this.builder.append(data);
-//        return new StringUtil(this.builder.toString() + data);
-        return new StringUtil(builder.toString().concat(String.valueOf(data)));
+        StringUtil other = new StringUtil();
+        other.builder.append(builder);
+        other.builder.append(data);
+        return other;
     }
 
     /**
@@ -147,8 +150,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil append(char[] data) {
-        // wrong - inefficient
-        return new StringUtil(builder.toString().concat(String.valueOf(data)));
+        StringUtil other = new StringUtil();
+        other.builder.append(builder);
+        other.builder.append(data);
+        return other;
     }
 
     /**
@@ -159,9 +164,12 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil append(byte[] data, Charset charset) {
-        return new StringUtil(builder.toString() + new StringUtil(data, charset).toString());
+        StringUtil other = new StringUtil();
+        StringUtil other1 = new StringUtil(data, charset);
+        other.builder.append(other);
+        other.builder.append(other1);
+        return other;
     }
-
 
     /**
      * void prepend StringBuffer data
@@ -171,9 +179,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil prepend(StringBuffer data) {
-        // wrong
-//        return new StringUtil(data.append(builder));
-        return new StringUtil(String.valueOf(data).concat(builder.toString()));
+        StringUtil other = new StringUtil();
+        other.builder.append(data);
+        other.builder.append(builder);
+        return other;
     }
 
     /**
@@ -184,10 +193,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil prepend(String data) {
-        // wrong - inefficient
-        return new StringUtil(data.concat(builder.toString()));
-//        return new StringUtil(data.concat(String.valueOf(builder)));
-
+        StringUtil other = new StringUtil();
+        other.builder.append(data);
+        other.builder.append(builder);
+        return other;
     }
 
     /**
@@ -198,13 +207,11 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil prepend(StringBuilder data) {
-        // wrong
-//        data.append(builder);
-//        return new StringUtil(data);
-        return new StringUtil(data.toString().concat(builder.toString()));
-
+        StringUtil other = new StringUtil();
+        other.builder.append(data);
+        other.builder.append(builder);
+        return other;
     }
-
 
     /**
      * void prepend data
@@ -222,12 +229,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil prepend(char[] data) {
-        // wrong - inefficient
-//        String temp = new String(data);
-//        return new StringUtil(temp.concat(builder.toString()));
-//        return new StringUtil(String.copyValueOf(data).concat(builder.toString()));
-        return new StringUtil(String.valueOf(data).concat(builder.toString()));
-
+        StringUtil other = new StringUtil();
+        other.builder.append(data);
+        other.builder.append(builder);
+        return other;
     }
 
     /**
@@ -244,9 +249,11 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil prepend(byte[] data, Charset charset) {
-        // wrong - inefficient
-        String valentina = new String(data, charset);
-        return new StringUtil(valentina.concat(builder.toString()));
+        StringUtil other = new StringUtil();
+        StringUtil other1 = new StringUtil(data, charset);
+        other.builder.append(other1);
+        other.builder.append(other);
+        return other;
     }
 
     /**
@@ -263,8 +270,8 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      *
      * @returns StringUtil
      */
-    // TODO: getCharacter
-    public char get(int index) {
+
+    public char getCharacter(int index) {
         return builder.charAt(index);
     }
 
@@ -276,10 +283,11 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @arg int index, char value
      * @returns void
      */
-    // TODO: setCharacter
+
     public StringUtil set(int index, char value) {
-        builder.toString().toCharArray()[index] = value;
-        return new StringUtil(builder);
+        StringUtil other = new StringUtil();
+        other.builder.toString().toCharArray()[index] = value;
+        return other;
     }
 
     /**
@@ -289,14 +297,15 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @arg int from, int to
      * @returns char[]
      */
-    // TODO: rename to characters
+
     public char[] characters(int from, int to) {
-        return builder.toString().substring(from, to).toCharArray();
+        return builder.substring(from, to).toCharArray();
     }
 
-    // TODO: implement newly added method
     public StringUtil range(int from, int to) {
-        return new StringUtil(builder.toString().substring(from, to).toCharArray());
+        StringUtil other = new StringUtil();
+        other.builder.substring(from, to);
+        return other;
     }
 
     /**
@@ -308,7 +317,6 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      */
     public StringUtil insert(int index, char value) {
         return new StringUtil(builder.insert(index, value));
-
     }
 
     public StringUtil insert(int index, String value) {
@@ -336,8 +344,9 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public char[] characters() {
-        // TODO: use builder.getChars
-        return builder.toString().toCharArray();
+        char[] dst = new char[builder.length()];
+        builder.getChars(0, builder.length(), dst, 0);
+        return dst;
     }
 
     @Override
@@ -363,7 +372,6 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
                 return false;
             }
         }
-
         return true;
     }
 
@@ -377,17 +385,14 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil soundex() {
-
-        char[] ch = builder.toString().toUpperCase().toCharArray();
-
+        char[] charArray = builder.toString().toUpperCase().toCharArray();
         for (int i = 1; i < 4; i++) {
-
-            switch (ch[i]) {
+            switch (charArray[i]) {
                 case 'B':
                 case 'P':
                 case 'F':
                 case 'V':
-                    ch[i] = '1';
+                    charArray[i] = '1';
                     break;
                 case 'C':
                 case 'S':
@@ -397,37 +402,31 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
                 case 'Q':
                 case 'X':
                 case 'Z':
-                    ch[i] = '2';
+                    charArray[i] = '2';
                     break;
                 case 'D':
                 case 'T':
-                    ch[i] = '3';
+                    charArray[i] = '3';
                     break;
                 case 'L':
-                    ch[i] = '4';
+                    charArray[i] = '4';
                     break;
                 case 'M':
                 case 'N':
-                    ch[i] = '5';
+                    charArray[i] = '5';
                     break;
                 case 'R':
-                    ch[i] = '6';
+                    charArray[i] = '6';
                     break;
-
                 default:
-                    ch[i] = '0';
+                    charArray[i] = '0';
                     break;
-
-
             }
         }
-        char[] ch1 = new char[4];
-        for (int i = 0; i < 4; i++) {
-            ch1[i] = ch[i];
-        }
+        char[] charArrayTemp = new char[4];
+        System.arraycopy(charArray, 0, charArrayTemp, 0, charArrayTemp.length);
 
-
-        return new StringUtil(new String(ch1));
+        return new StringUtil(new String(charArrayTemp));
     }
 
     @Override
@@ -435,7 +434,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
         if (builder.equals(o))
             return 0;
-        else if (builder.length() - o.toString().length() > 0)
+        else if (builder.length() - o.size() > 0)
             return 1;
         else
             return -1;
@@ -464,17 +463,15 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
         @Override
         public boolean hasNext() {
-            return current < builder.capacity();
+            return current < builder.length();
         }
 
         @Override
         public Character next() {
-            char[] ch = builder.toString().toCharArray();
-
-            if (builder.capacity() > current)
-                return ch[current++];
-            else
+            if (!hasNext()) {
                 throw new NoSuchElementException();
+            }
+            return builder.charAt(current++);
         }
     }
 
@@ -484,33 +481,32 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil remove(int from, int to) {
-        return new StringUtil(builder.delete(from, to));
+        StringUtil other = new StringUtil();
+        other.builder.delete(from, to);
+        return other;
     }
 
-    // returns amount of occurences
     public int find(char value) {
         int count = 0;
-        for (char ch : builder.toString().toCharArray()) {
-            if (ch == value)
+        for (int i = 0; i < size(); i++) {
+            if (builder.charAt(i) == value) {
                 count++;
+            }
         }
         return count;
     }
 
     public int find(String value) {
-
         int count = 0;
         int lastIndex = 0;
         while ((lastIndex = builder.toString().indexOf(value, lastIndex)) != -1) {
             count++;
-            lastIndex += value.length() ;
+            lastIndex += value.length();
         }
-
         return count;
     }
 
     public int find(char[] value) {
-
         throw new UnsupportedOperationException();
     }
 
