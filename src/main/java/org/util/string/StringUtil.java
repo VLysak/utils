@@ -1,5 +1,3 @@
-import com.sun.org.apache.xerces.internal.util.MessageFormatter;
-
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Comparator;
@@ -506,6 +504,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int find(char[] value) {
+
         throw new UnsupportedOperationException();
     }
 
