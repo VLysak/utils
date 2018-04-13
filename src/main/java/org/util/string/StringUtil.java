@@ -30,6 +30,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         ;
     }
 
+    private StringUtil() {
+        this.builder = new StringBuilder();
+    }
+
     /**
      * StringUtil constructor.
      * Initialize "StringBuilder builder" by concatenate "String data"
@@ -114,8 +118,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil append(String data) {
-        // wrong - inefficient
-        return new StringUtil(builder.toString().concat(data));
+        StringUtil other = new StringUtil();
+        other.builder.append(builder);
+        other.builder.append(data);
+        return other;
     }
 
     /**
