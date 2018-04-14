@@ -2,6 +2,7 @@ package org.util.string;
 
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -486,7 +487,14 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         return other;
     }
 
-    public int find(char value) {
+    /**
+     * In result of execution of this method will be returned quantity of occurrences
+     * 'value' type of char into builder
+     *
+     * @param value
+     * @return int
+     */
+    public int count(char value) {
         int count = 0;
         for (int i = 0; i < size(); i++) {
             if (builder.charAt(i) == value) {
@@ -496,9 +504,17 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         return count;
     }
 
-    public int find(String value) {
+    /**
+     * In result of execution of this method will be returned quantity of occurrences
+     * 'value' type of String into builder
+     *
+     * @param value
+     * @return int
+     */
+    public int count(String value) {
         int count = 0;
         int lastIndex = 0;
+
         while ((lastIndex = builder.toString().indexOf(value, lastIndex)) != -1) {
             count++;
             lastIndex += value.length();
@@ -506,22 +522,122 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         return count;
     }
 
-    public int find(char[] value) {
+    public int count(char[] value) {
+        int count = 0;
+        int lastIndex = 0;
+        String str = "";
+        for (int i = 0; i < value.length; i++) {
+            if(value[i] == '[') {
 
+            }
+        }
+
+        int index = 0;
+        while (index < value.length) {
+            int indexOf = builder.indexOf(new String(value), index);
+            if (indexOf == -1) {
+                return count;
+            }
+            count++;
+            index = indexOf + value.length;
+        }
+        return count;
+
+        String str = new String()
+        String str = Arrays.toString(value);
+        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
+            count++;
+            lastIndex += str.length();
+        }
+        return count;
+    }
+
+    public int count(StringBuilder value) {
+        int count = 0;
+        int lastIndex = 0;
+        String str = value.toString();
+
+        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
+            count++;
+            lastIndex += value.length();
+        }
+        return count;
+    }
+
+    public int count(StringBuffer value) {
+        int count = 0;
+        int lastIndex = 0;
+        String str = value.toString();
+
+        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
+            count++;
+            lastIndex += value.length();
+        }
+        return count;
+    }
+
+    public int count(StringUtil value) {
+        int count = 0;
+        int lastIndex = 0;
+        String str = value.toString();
+
+        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
+            count++;
+            lastIndex += value.size();
+        }
+        return count;
+    }
+
+    // TODO: create copy of methods findFirst, findLast with odd parameter: offset
+    // example: public int findFirst(char value, int offset) {...}
+    public int findFirst(char value) {
+        return 0;
+    }
+
+    public int findFirst(String value) {
+        return 0;
+    }
+
+    public int findFirst(char[] value) {
+        return 0;
+    }
+
+    public int findFirst(StringBuilder value) {
         throw new UnsupportedOperationException();
     }
 
-    public int find(StringBuilder value) {
+    public int findFirst(StringBuffer value) {
         throw new UnsupportedOperationException();
     }
 
-    public int find(StringBuffer value) {
+    public int findFirst(StringUtil value) {
         throw new UnsupportedOperationException();
     }
 
-    public int find(StringUtil value) {
+    public int findLast(char value) {
+        return 0;
+    }
+
+    public int findLast(String value) {
+        return 0;
+    }
+
+    public int findLast(char[] value) {
+        return 0;
+    }
+
+    public int findLast(StringBuilder value) {
         throw new UnsupportedOperationException();
     }
+
+    public int findLast(StringBuffer value) {
+        throw new UnsupportedOperationException();
+    }
+
+    public int findLast(StringUtil value) {
+        throw new UnsupportedOperationException();
+    }
+
 
     public boolean contains(char value) {
         throw new UnsupportedOperationException();
@@ -713,25 +829,5 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     @Override
     public int compare(StringUtil o1, StringUtil o2) {
         throw new UnsupportedOperationException();
-    }
-
-    public static void main(String[] args) {
-        StringUtil a = new StringUtil("abc");
-
-        StringBuffer b = new StringBuffer().append("b");
-        System.out.println(a); // a
-        System.out.println(b); // b
-
-        StringUtil ab = a.append(b);
-        System.out.println(a); // a
-        System.out.println(b); // b
-        System.out.println(ab); // ab
-        System.out.println(ab.reverse());
-        System.out.println(ab.prepend("sd"));
-        System.out.println(ab.get(1));
-        System.out.println(a.insert(1, a));
-        System.out.println(a.soundex());
-        System.out.println(a.find("a"));
-
     }
 }
