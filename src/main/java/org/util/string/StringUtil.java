@@ -33,6 +33,12 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         ;
     }
 
+    /**
+     * Default StringUtil constructor.
+     * Initialize "StringBuilder builder"
+     *
+     * @returns new StringUtil
+     */
     private StringUtil() {
         this.builder = new StringBuilder();
     }
@@ -263,13 +269,14 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns StringUtil
      */
     public StringUtil reverse() {
-        return new StringUtil(builder.reverse());
+        StringUtil other = new StringUtil(builder.reverse());
+        return other;
     }
 
     /**
      * returns char with index
      *
-     * @returns StringUtil
+     * @returns char
      */
 
     public char getCharacter(int index) {
@@ -285,10 +292,8 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
 
-    public StringUtil set(int index, char value) {
-        StringUtil other = new StringUtil();
-        other.builder.setCharAt(index, value);
-        return other;
+    public void set(int index, char value) {
+        builder.setCharAt(index, value);
     }
 
     /**
@@ -386,10 +391,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil soundex() {
-        StringUtil other = new StringUtil();
         char[] charArray = builder.toString().toUpperCase().toCharArray();
-
-
         for (int i = 1; i < 4; i++) {
             switch (charArray[i]) {
                 case 'B':
@@ -427,10 +429,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
                     break;
             }
         }
-//        char[] charArrayTemp = new char[4];
-//        System.arraycopy(charArray, 0, charArrayTemp, 0, charArrayTemp.length);
-
-        return new StringUtil(charArray);
+        char[] charArrayTemp = new char[4];
+        System.arraycopy(charArray, 0, charArrayTemp, 0, charArrayTemp.length);
+        StringUtil other = new StringUtil(charArrayTemp);
+        return other;
     }
 
     @Override
