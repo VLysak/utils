@@ -34,58 +34,43 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * Default StringUtil constructor.
-     * Initialize "StringBuilder builder"
-     *
-     * @returns new StringUtil
+     * Initializes instance with default value
      */
     private StringUtil() {
         this.builder = new StringBuilder();
     }
 
     /**
-     * StringUtil constructor.
-     * Initialize "StringBuilder builder" by concatenate "String data"
+     * Initializes instance with default value and added 'String data'
      *
      * @param data
-     * @returns new StringUtil (String data)
      */
     public StringUtil(String data) {
         this.builder = new StringBuilder(data);
     }
 
     /**
-     * StringUtil constructor.
-     * Initialize "StringBuilder builder" by concatenate "StringBuffer data"
+     * Initializes instance with default value and added 'StringBuffer data'
      *
      * @param data
-     * @returns new StringUtil (StringBuffer data)
      */
-
     public StringUtil(StringBuffer data) {
         this.builder = new StringBuilder(data);
-
     }
 
     /**
-     * StringUtil constructor.
-     * Initialize "StringBuilder builder" by concatenate "StringBuilder data"
-     * new StringUtil (StringBuilder data)
+     * Initializes instance with default value and added 'StringBuffer data'
      *
      * @param data
-     * @returns void
      */
-
     public StringUtil(StringBuilder data) {
         this.builder = new StringBuilder(data);
     }
 
     /**
-     * StringUtil constructor.
-     * Initialize "StringBuilder builder" by concatenate "char [] data"
+     * Initializes instance with default value and added 'char [] data'
      *
      * @param data
-     * @returns new StringUtil (char [] data)
      */
 
     public StringUtil(char[] data) {
@@ -93,13 +78,11 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * StringUtil constructor.
-     * Initialize "StringBuilder builder" by concatenate "byte [] data"
+     * * Initializes instance with default value and added 'byte [] data' with charset
      *
      * @param data
-     * @returns new StringUtil (byte [] data)
+     * @param charset
      */
-
     public StringUtil(byte[] data, Charset charset) {
         this(new String(data, charset));
     }
@@ -107,11 +90,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     /// ALL METHODS MUST RETURN NEW EXEMPLAR OF StringUtil which replace old StringUtil (other object)
 
     /**
-     * Append StringBuffer data
-     * this method append StringBuffer data to field StringBuilder builder
+     * Appends data to the end. Does not change state of this instance.
      *
-     * @param data
-     * @returns StringUtil
+     * @param data - value to append
+     * @return another object with modified state
      */
     public StringUtil append(StringBuffer data) {
         StringUtil other = new StringUtil();
@@ -121,11 +103,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * This method returns new instance of StringUtil
-     * with append String data to field StringBuilder builder
+     * Appends data to the end. Does not change state of this instance.
      *
-     * @param data
-     * @returns StringUtil
+     * @param data - value to append
+     * @return another object with modified state
      */
     public StringUtil append(String data) {
         StringUtil other = new StringUtil();
@@ -135,11 +116,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * This method returns new instance of StringUtil
-     * with append StringBuilder data to field StringBuilder builder
+     * Appends data to the end. Does not change state of this instance.
      *
-     * @param data
-     * @returns StringUtil
+     * @param data - value to append
+     * @return another object with modified state
      */
     public StringUtil append(StringBuilder data) {
         StringUtil other = new StringUtil();
@@ -149,11 +129,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * This method returns new instance of StringUtil
-     * with append char array data to field StringBuilder builder
+     * Appends data to the end. Does not change state of this instance.
      *
-     * @param data
-     * @returns StringUtil
+     * @param data - value to append
+     * @return another object with modified state
      */
     public StringUtil append(char[] data) {
         StringUtil other = new StringUtil();
@@ -163,27 +142,25 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * This method returns new instance of StringUtil
-     * with append data from 'byte[] data'  with 'Charset charset' to field StringBuilder builder
+     * Appends data to the end. Does not change state of this instance.
      *
-     * @param data
+     * @param data    - value to append
      * @param charset
-     * @returns void
+     * @return another object with modified state
      */
     public StringUtil append(byte[] data, Charset charset) {
         StringUtil other = new StringUtil();
         StringUtil other1 = new StringUtil(data, charset);
-        other.builder.append(other);
+        other.builder.append(builder);
         other.builder.append(other1);
         return other;
     }
 
     /**
-     * This method returns new instance of StringUtil
-     * with append StringBuffer data to field StringBuilder builder
+     * Prepends data to the start. Does not change state of this instance.
      *
-     * @param data
-     * @returns StringUtil
+     * @param data - value to prepend
+     * @return another object with modified state
      */
     public StringUtil prepend(StringBuffer data) {
         StringUtil other = new StringUtil();
@@ -193,11 +170,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * void prepend String data
-     * this method prepend data from parameter to field builder
+     * Prepends data to the start. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data - value to prepend
+     * @return another object with modified state
      */
     public StringUtil prepend(String data) {
         StringUtil other = new StringUtil();
@@ -207,11 +183,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * void prepend StringBuilder data
-     * this method prepend StringBuilder data to field StringBuilder builder
+     * Prepends data to the start. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data - value to prepend
+     * @return another object with modified state
      */
     public StringUtil prepend(StringBuilder data) {
         StringUtil other = new StringUtil();
@@ -221,19 +196,10 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * void prepend data
-     * this method prepend 'char[] data' to field 'StringBuilder builder'
-     * <p>
-     * 1. old data 'StringBuilder builder' append to new data 'char[] data'
-     * 1.1 convert 'char data' to type 'String'
-     * 1.1.1 create variable 'String temp'
-     * 1.1.2 to temp add new data from parameters
-     * 1.2 temp + old data from field 'builder'
-     * <p>
-     * 2.
+     * Prepends data to the start. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data - value to prepend
+     * @return another object with modified state
      */
     public StringUtil prepend(char[] data) {
         StringUtil other = new StringUtil();
@@ -243,30 +209,24 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * void append data from 'byte[] data'  with 'Charset charset' over call of constructor with
-     * parameters types (byte[] data, Charset charset)
-     * 1. prepend new data from 'byte[] data' to old data 'StringBuilder builder' and create new instance of
-     * StringUtil
-     * 1.1 take new data 'byte[] data' and concatenate with old data 'StringBuilder builder'
-     * 1.1.1 'byte[] data' convert to type compatible with 'StringBuilder builder'
-     * 1.1.2 concatenate new data with old data
-     * 1.2 create new instance StringUtil by call constructor with new data as parameter
+     * Prepends data to the start. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data    - value to prepend
+     * @param charset
+     * @return another object with modified state
      */
     public StringUtil prepend(byte[] data, Charset charset) {
         StringUtil other = new StringUtil();
         StringUtil other1 = new StringUtil(data, charset);
         other.builder.append(other1);
-        other.builder.append(other);
+        other.builder.append(builder);
         return other;
     }
 
     /**
-     * returns new instance of StringUtil which have reversed order of its data(field builder)
+     * Returns new instance which have reversed order of its field builder
      *
-     * @returns StringUtil
+     * @return another object with modified state
      */
     public StringUtil reverse() {
         StringUtil other = new StringUtil(builder.reverse());
@@ -274,45 +234,43 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * returns char with index
+     * Returns char with index
      *
-     * @returns char
+     * @return char
      */
-
-    public char getCharacter(int index) {
+    public char character(int index) {
         return builder.charAt(index);
     }
 
     /**
-     * in result of execute this method argument 'velue' will be set in field builder to 'index'
-     * 1. set value in field builder with index
-     * 1.1 builder
+     * Returns new instance which contains builder with set 'value' to 'index'
      *
-     * @arg int index, char value
-     * @returns void
+     * @param index
+     * @param value
+     * @return another object with modified state
      */
-
-    public void set(int index, char value) {
-        builder.setCharAt(index, value);
+    public StringUtil set(int index, char value) {
+        StringUtil other = new StringUtil(builder);
+        other.builder.setCharAt(index, value);
+        return other;
     }
 
     /**
-     * in result of execution of this method will be returned char[] and which
-     * will be contains all elements field builder from 'int index' to 'int to'
+     * Method will be returned char[] and which will be contains
+     * all elements field builder from 'int index' to 'int to'
      *
-     * @arg int from, int to
-     * @returns char[]
+     * @param from
+     * @param to
+     * @return char[]
      */
-
     public char[] characters(int from, int to) {
         return builder.substring(from, to).toCharArray();
     }
 
     public StringUtil range(int from, int to) {
-        StringUtil other = new StringUtil();
-        other.builder.substring(from, to);
-        return other;
+        return new StringUtil(builder.substring(from, to).toCharArray());
     }
+
 
     /**
      * in result of execution of this method will be insert value of argument 'int value'
@@ -349,7 +307,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         return function.apply(this);
     }
 
-    public char[] characters() {
+    public char[] allCharacters() {
         char[] dst = new char[builder.length()];
         builder.getChars(0, builder.length(), dst, 0);
         return dst;
@@ -548,8 +506,8 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 //        }
 //        return count;
 //
-////        String str = new String()
-////        String str = Arrays.toString(value);
+//        String str = new String()
+//        String str = Arrays.toString(value);
 //        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
 //            count++;
 //            lastIndex += str.length();
@@ -595,51 +553,60 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     // TODO: create copy of methods findFirst, findLast with odd parameter: offset
     // example: public int findFirst(char value, int offset) {...}
-    public int findFirst(char value) {
+    public int findFirst(char value, int offset) {
+        int findFirst = builder.toString().indexOf(value, offset);
+        return findFirst;
+    }
+
+    public int findFirst(String value, int offset) {
+        int findFirst = builder.indexOf(value, offset);
+        return findFirst;
+    }
+
+    public int findFirst(char[] value, int offset) {
+        String str = new String(value);
+        int findFirst = builder.indexOf(str, offset);
+        return findFirst;
+    }
+
+    public int findFirst(StringBuilder value, int offset) {
+        int findFirst = builder.indexOf(value.toString(), offset);
+        return findFirst;
+    }
+
+    public int findFirst(StringBuffer value, int offset) {
+        int findFirst = builder.indexOf(value.toString(), offset);
+        return findFirst;
+    }
+
+    public int findFirst(StringUtil value, int offset) {
+        int findFirst = builder.indexOf(value.toString(), offset);
+        return findFirst;
+    }
+
+    public int findLast(char value, int offset) {
+        String str = String.valueOf(value);
+        int findLast = builder.lastIndexOf(str, offset);
+        return findLast;
+    }
+
+    public int findLast(String value, int offset) {
         return 0;
     }
 
-    public int findFirst(String value) {
+    public int findLast(char[] value, int offset) {
         return 0;
     }
 
-    public int findFirst(char[] value) {
-        return 0;
-    }
-
-    public int findFirst(StringBuilder value) {
+    public int findLast(StringBuilder value, int offset) {
         throw new UnsupportedOperationException();
     }
 
-    public int findFirst(StringBuffer value) {
+    public int findLast(StringBuffer value, int offset) {
         throw new UnsupportedOperationException();
     }
 
-    public int findFirst(StringUtil value) {
-        throw new UnsupportedOperationException();
-    }
-
-    public int findLast(char value) {
-        return 0;
-    }
-
-    public int findLast(String value) {
-        return 0;
-    }
-
-    public int findLast(char[] value) {
-        return 0;
-    }
-
-    public int findLast(StringBuilder value) {
-        throw new UnsupportedOperationException();
-    }
-
-    public int findLast(StringBuffer value) {
-        throw new UnsupportedOperationException();
-    }
-
-    public int findLast(StringUtil value) {
+    public int findLast(StringUtil value, int offset) {
         throw new UnsupportedOperationException();
     }
 
@@ -787,10 +754,14 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     @Override
     public boolean equals(Object obj) {
-        throw new UnsupportedOperationException();
+        if (builder.equals(obj))
+            return true;
+        else
+            return false;
     }
 
-    // this method group uses default equality type
+    // this method group uses default
+    // type
     public boolean equals(String value) {
         throw new UnsupportedOperationException();
     }
