@@ -41,36 +41,28 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * Initializes instance with default value and added 'String data'
-     *
-     * @param data
+     * Initializes instance with provided value
      */
     public StringUtil(String data) {
         this.builder = new StringBuilder(data);
     }
 
     /**
-     * Initializes instance with default value and added 'StringBuffer data'
-     *
-     * @param data
+     * Initializes instance with provided value
      */
     public StringUtil(StringBuffer data) {
         this.builder = new StringBuilder(data);
     }
 
     /**
-     * Initializes instance with default value and added 'StringBuffer data'
-     *
-     * @param data
+     * Initializes instance with provided value
      */
     public StringUtil(StringBuilder data) {
         this.builder = new StringBuilder(data);
     }
 
     /**
-     * Initializes instance with default value and added 'char [] data'
-     *
-     * @param data
+     *Initializes instance with provided value
      */
 
     public StringUtil(char[] data) {
@@ -78,10 +70,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * * Initializes instance with default value and added 'byte [] data' with charset
-     *
-     * @param data
-     * @param charset
+     * Initializes instance with provided value
      */
     public StringUtil(byte[] data, Charset charset) {
         this(new String(data, charset));
@@ -234,7 +223,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * Returns char with index
+     * Returns char by index
      *
      * @return char
      */
@@ -280,7 +269,9 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil insert(int index, char value) {
-        return new StringUtil(builder.insert(index, value));
+        StringUtil other = new StringUtil();
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, String value) {
@@ -451,7 +442,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * In result of execution of this method will be returned quantity of occurrences
+     * In result of execution of this method will be returned count value occurrences
      * 'value' type of char into builder
      *
      * @param value
