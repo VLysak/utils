@@ -442,8 +442,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * In result of execution of this method will be returned count value occurrences
-     * 'value' type of char into builder
+     * Count method occurences
      *
      * @param value
      * @return int
