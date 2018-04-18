@@ -2,7 +2,6 @@ package org.util.string;
 
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -62,7 +61,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     *Initializes instance with provided value
+     * Initializes instance with provided value
      */
 
     public StringUtil(char[] data) {
@@ -85,8 +84,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return another object with modified state
      */
     public StringUtil append(StringBuffer data) {
-        StringUtil other = new StringUtil();
-        other.builder.append(builder);
+        StringUtil other = new StringUtil(builder);
         other.builder.append(data);
         return other;
     }
@@ -98,8 +96,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return another object with modified state
      */
     public StringUtil append(String data) {
-        StringUtil other = new StringUtil();
-        other.builder.append(builder);
+        StringUtil other = new StringUtil(builder);
         other.builder.append(data);
         return other;
     }
@@ -111,8 +108,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return another object with modified state
      */
     public StringUtil append(StringBuilder data) {
-        StringUtil other = new StringUtil();
-        other.builder.append(builder);
+        StringUtil other = new StringUtil(builder);
         other.builder.append(data);
         return other;
     }
@@ -124,8 +120,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return another object with modified state
      */
     public StringUtil append(char[] data) {
-        StringUtil other = new StringUtil();
-        other.builder.append(builder);
+        StringUtil other = new StringUtil(builder);
         other.builder.append(data);
         return other;
     }
@@ -138,10 +133,8 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return another object with modified state
      */
     public StringUtil append(byte[] data, Charset charset) {
-        StringUtil other = new StringUtil();
-        StringUtil other1 = new StringUtil(data, charset);
-        other.builder.append(builder);
-        other.builder.append(other1);
+        StringUtil other = new StringUtil(builder);
+        other.builder.append(new StringUtil(data, charset));
         return other;
     }
 
@@ -152,8 +145,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return another object with modified state
      */
     public StringUtil prepend(StringBuffer data) {
-        StringUtil other = new StringUtil();
-        other.builder.append(data);
+        StringUtil other = new StringUtil(data);
         other.builder.append(builder);
         return other;
     }
@@ -165,8 +157,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return another object with modified state
      */
     public StringUtil prepend(String data) {
-        StringUtil other = new StringUtil();
-        other.builder.append(data);
+        StringUtil other = new StringUtil(data);
         other.builder.append(builder);
         return other;
     }
@@ -178,8 +169,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return another object with modified state
      */
     public StringUtil prepend(StringBuilder data) {
-        StringUtil other = new StringUtil();
-        other.builder.append(data);
+        StringUtil other = new StringUtil(data);
         other.builder.append(builder);
         return other;
     }
@@ -191,8 +181,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return another object with modified state
      */
     public StringUtil prepend(char[] data) {
-        StringUtil other = new StringUtil();
-        other.builder.append(data);
+        StringUtil other = new StringUtil(data);
         other.builder.append(builder);
         return other;
     }
@@ -205,9 +194,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return another object with modified state
      */
     public StringUtil prepend(byte[] data, Charset charset) {
-        StringUtil other = new StringUtil();
-        StringUtil other1 = new StringUtil(data, charset);
-        other.builder.append(other1);
+        StringUtil other = new StringUtil(data, charset);
         other.builder.append(builder);
         return other;
     }
@@ -218,7 +205,8 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return another object with modified state
      */
     public StringUtil reverse() {
-        StringUtil other = new StringUtil(builder.reverse());
+        StringUtil other = new StringUtil(builder);
+        other.builder.reverse();
         return other;
     }
 
@@ -341,6 +329,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     public StringUtil soundex() {
         char[] charArray = builder.toString().toUpperCase().toCharArray();
+
         for (int i = 1; i < 4; i++) {
             switch (charArray[i]) {
                 case 'B':
@@ -442,7 +431,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * Count method occurences
+     * Count method occurrences
      *
      * @param value
      * @return int
