@@ -15,7 +15,7 @@ public class StringUtilTest {
 
     @Test
     public void testStringUtil() {
-        StringUtil a = new StringUtil("abc");
+        StringUtil a = new StringUtil("abcd");
         StringBuffer b = new StringBuffer(" buffer ");
         StringBuilder c = new StringBuilder(" builder ");
         StringUtil ab = a.append(b);
@@ -29,7 +29,6 @@ public class StringUtilTest {
 //        System.out.println(ab); // ab
 //        System.out.println(a.insert(1, a));
 //        System.out.println(a.count('b'));
-//        System.out.println(a.soundex());
 //        System.out.println(a.set(0, 'k'));
 //        System.out.println(a.findLast('b', a.size()));
         System.out.println(a.append(" string"));
@@ -44,6 +43,7 @@ public class StringUtilTest {
         System.out.println(a.prepend(charArrays));
         System.out.println(a.prepend(byteArrays, charset));
         System.out.println(a.reverse());
+        System.out.println(a.soundex());
         System.out.println(a);
 
 

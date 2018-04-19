@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import java.lang.Character;
 
 public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<Character>, Comparator<StringUtil> {
 
@@ -328,10 +329,12 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil soundex() {
-        char[] charArray = builder.toString().toUpperCase().toCharArray();
+        char[] charArray = new char[builder.length()];
+        charArray[0] = Character.toUpperCase(new StringUtil(builder).character(0));
 
         for (int i = 1; i < 4; i++) {
-            switch (charArray[i]) {
+            Character character = Character.toUpperCase(builder.charAt(i));
+            switch (character) {
                 case 'B':
                 case 'P':
                 case 'F':
@@ -367,10 +370,9 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
                     break;
             }
         }
-        char[] charArrayTemp = new char[4];
-        System.arraycopy(charArray, 0, charArrayTemp, 0, charArrayTemp.length);
-        StringUtil other = new StringUtil(charArrayTemp);
-        return other;
+        char[] charArrayTemp = new char[charArray.length];
+        System.arraycopy(charArray, 0, charArrayTemp, 0, 4);
+        return new StringUtil(charArrayTemp);
     }
 
     @Override
