@@ -2,6 +2,7 @@ package org.util.string;
 
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -318,7 +319,8 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean isBool() {
-        throw new UnsupportedOperationException();
+        Boolean bool = new Boolean(true);
+        return bool.equals(builder);
     }
 
     @Override
@@ -454,35 +456,19 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         return count;
     }
 
-//    public int count(char[] value) {
-//        int count = 0;
-//        int lastIndex = 0;
-//        String str = "";
-//        for (int i = 0; i < value.length; i++) {
-//            if (value[i] == '[') {
-//
-//            }
-//        }
-//
-//        int index = 0;
-//        while (index < value.length) {
-//            int indexOf = builder.indexOf(new String(value), index);
-//            if (indexOf == -1) {
-//                return count;
-//            }
-//            count++;
-//            index = indexOf + value.length;
-//        }
-//        return count;
-//
-//        String str = new String()
-//        String str = Arrays.toString(value);
-//        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
-//            count++;
-//            lastIndex += str.length();
-//        }
-//        return count;
-//    }
+    public int count(char[] value) {
+        int count = 0;
+        int index = 0;
+        while (index < builder.length()) {
+            int indexOf = builder.indexOf(new String(value), index);
+            if (indexOf == -1) {
+                return count;
+            }
+            count++;
+            index = indexOf + value.length;
+        }
+        return count;
+    }
 
     public int count(StringBuilder value) {
         int count = 0;
@@ -522,6 +508,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     // TODO: create copy of methods findFirst, findLast with odd parameter: offset
     // example: public int findFirst(char value, int offset) {...}
+    
     public int findFirst(char value, int offset) {
         int findFirst = builder.toString().indexOf(value, offset);
         return findFirst;
