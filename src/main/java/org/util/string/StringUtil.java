@@ -246,7 +246,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil range(int from, int to) {
-        return new StringUtil(builder.substring(from, to).toCharArray());
+        return new StringUtil(builder.substring(from, to));
     }
 
 
@@ -375,19 +375,12 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     @Override
     public int compareTo(StringUtil o) {
-
-        if (builder.equals(o))
-            return 0;
-        else if (builder.length() > o.size())
-            return 1;
-        else
-            return -1;
+        return builder.toString().compareTo(o.toString());
     }
 
     public byte[] bytes() {
         return builder.toString().getBytes();
     }
-
 
     public byte[] bytes(Charset charset) {
         return builder.toString().getBytes(charset);
@@ -398,7 +391,6 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         private final StringBuilder builder;
         private final int cursor;
         int current = 0;
-
 
         public BuilderIterator(StringBuilder builder) {
             this.builder = builder;
@@ -425,9 +417,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil remove(int from, int to) {
-        StringUtil other = new StringUtil();
-        other.builder.delete(from, to);
-        return other;
+        return new StringUtil(new StringUtil(builder).builder.delete(from, to));
     }
 
     /**
