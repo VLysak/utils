@@ -258,29 +258,27 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil insert(int index, char value) {
-        StringUtil other = new StringUtil();
-        other.builder.insert(index, value);
-        return other;
+        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
     }
 
     public StringUtil insert(int index, String value) {
-        return new StringUtil(builder.insert(index, value));
+        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
     }
 
     public StringUtil insert(int index, char[] value) {
-        return new StringUtil(builder.insert(index, value));
+        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
     }
 
     public StringUtil insert(int index, StringBuilder value) {
-        return new StringUtil(builder.insert(index, value));
+        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
     }
 
     public StringUtil insert(int index, StringBuffer value) {
-        return new StringUtil(builder.insert(index, value));
+        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
     }
 
     public StringUtil insert(int index, StringUtil value) {
-        return new StringUtil(builder.insert(index, value));
+        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
     }
 
     public <T> T convert(Function<StringUtil, T> function) {
