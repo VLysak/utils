@@ -44,6 +44,12 @@ public class StringUtilTest {
         System.out.println(a.prepend(byteArrays, charset));
         System.out.println(a.reverse());
         System.out.println(a.soundex());
+        System.out.println(a.insert(2, 't'));
+        System.out.println(a.insert(2, " string "));
+        System.out.println(a.insert(2, charArrays));
+        System.out.println(a.insert(2, c));
+        System.out.println(a.insert(2, b));
+        System.out.println(a.insert(2, a));
         System.out.println(a);
 
 
