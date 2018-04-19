@@ -374,15 +374,15 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     @Override
     public int compareTo(StringUtil o) {
-        return builder.toString().compareTo(o.builder.toString());
+        return toString().compareTo(o.toString());
     }
 
     public byte[] bytes() {
-        return builder.toString().getBytes();
+        return toString().getBytes();
     }
 
     public byte[] bytes(Charset charset) {
-        return builder.toString().getBytes(charset);
+        return toString().getBytes(charset);
     }
 
     private static class BuilderIterator implements Iterator<Character> {
@@ -456,7 +456,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     public int count(char[] value) {
         int count = 0;
         int index = 0;
-        while (index < builder.length()) {
+        while (index < size()) {
             int indexOf = builder.indexOf(new String(value), index);
             if (indexOf == -1) {
                 return count;
