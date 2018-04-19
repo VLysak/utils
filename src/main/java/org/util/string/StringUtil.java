@@ -319,7 +319,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean isBool() {
-        Boolean bool = new Boolean(true);
+        Boolean bool = new Boolean();
         return bool.equals(builder);
     }
 
@@ -329,55 +329,52 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil soundex() {
-        char[] charArray = new char[builder.length()];
-        charArray[0] = Character.toUpperCase(new StringUtil(builder).character(0));
-
-        for (int i = 1; i < 4; i++) {
-            Character character = Character.toUpperCase(builder.charAt(i));
-            switch (character) {
-                case 'B':
-                case 'P':
-                case 'F':
-                case 'V':
-                    charArray[i] = '1';
-                    break;
-                case 'C':
-                case 'S':
-                case 'K':
-                case 'G':
-                case 'J':
-                case 'Q':
-                case 'X':
-                case 'Z':
-                    charArray[i] = '2';
-                    break;
-                case 'D':
-                case 'T':
-                    charArray[i] = '3';
-                    break;
-                case 'L':
-                    charArray[i] = '4';
-                    break;
-                case 'M':
-                case 'N':
-                    charArray[i] = '5';
-                    break;
-                case 'R':
-                    charArray[i] = '6';
-                    break;
-                default:
-                    charArray[i] = '0';
-                    break;
-            }
+        StringUtil result = new StringUtil();
+        for (int i = 0; i < 4; i++) {
+            char c = builder.charAt(i);
+            c = Character.toUpperCase(c);
+            c = (i > 0) ? replace(c) : c;
+            result.builder.append(c);
         }
-        char[] charArrayTemp = new char[charArray.length];
-        System.arraycopy(charArray, 0, charArrayTemp, 0, 4);
-        return new StringUtil(charArrayTemp);
+        return result;
+    }
+
+    private char replace(char c) {
+        switch (c) {
+            case 'B':
+            case 'P':
+            case 'F':
+            case 'V':
+                return '1';
+            case 'C':
+            case 'S':
+            case 'K':
+            case 'G':
+            case 'J':
+            case 'Q':
+            case 'X':
+            case 'Z':
+                return  '2';
+            case 'D':
+            case 'T':
+                return  '3';
+            case 'L':
+                return  '4';
+            case 'M':
+            case 'N':
+                return  '5';
+            case 'R':
+                return  '6';
+            default:
+                break;
+        }
+
+        return '0';
     }
 
     @Override
     public int compareTo(StringUtil o) {
-        return builder.toString().compareTo(o.toString());
+        return compare(this, o);
     }
 
     public byte[] bytes() {
@@ -508,7 +505,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     // TODO: create copy of methods findFirst, findLast with odd parameter: offset
     // example: public int findFirst(char value, int offset) {...}
-    
+
     public int findFirst(char value, int offset) {
         int findFirst = builder.toString().indexOf(value, offset);
         return findFirst;
@@ -760,6 +757,6 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     @Override
     public int compare(StringUtil o1, StringUtil o2) {
-        throw new UnsupportedOperationException();
+        return o1.builder.toString().compareTo(o2.builder.toString());
     }
 }
