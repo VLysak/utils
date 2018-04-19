@@ -374,7 +374,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     @Override
     public int compareTo(StringUtil o) {
-        return compare(this, o);
+        return builder.toString().compareTo(o.builder.toString());
     }
 
     public byte[] bytes() {
@@ -757,6 +757,6 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     @Override
     public int compare(StringUtil o1, StringUtil o2) {
-        return o1.builder.toString().compareTo(o2.builder.toString());
+        return o1.compareTo(o2);
     }
 }
