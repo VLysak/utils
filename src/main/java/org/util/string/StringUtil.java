@@ -471,7 +471,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         int count = 0;
         int lastIndex = 0;
 
-        while ((lastIndex = builder.toString().indexOf(value, lastIndex)) != -1) {
+        while ((lastIndex = builder.indexOf(value, lastIndex)) != -1) {
             count++;
             lastIndex += value.length();
         }
@@ -481,13 +481,14 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     public int count(char[] value) {
         int count = 0;
         int index = 0;
+        String str = value.toString();
         while (index < size()) {
-            int indexOf = builder.indexOf(new String(value), index);
+            int indexOf = builder.indexOf(str, index);
             if (indexOf == -1) {
                 return count;
             }
             count++;
-            index = indexOf + value.length;
+            index = indexOf + str.length();
         }
         return count;
     }
@@ -497,7 +498,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         int lastIndex = 0;
         String str = value.toString();
 
-        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
+        while ((lastIndex = builder.indexOf(str, lastIndex)) != -1) {
             count++;
             lastIndex += value.length();
         }
@@ -509,7 +510,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         int lastIndex = 0;
         String str = value.toString();
 
-        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
+        while ((lastIndex = builder.indexOf(str, lastIndex)) != -1) {
             count++;
             lastIndex += value.length();
         }
@@ -521,73 +522,108 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         int lastIndex = 0;
         String str = value.toString();
 
-        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
+        while ((lastIndex = builder.indexOf(str, lastIndex)) != -1) {
             count++;
             lastIndex += value.size();
         }
         return count;
     }
 
-    // TODO: create copy of methods findFirst, findLast with odd parameter: offset
-    // example: public int findFirst(char value, int offset) {...}
-
     public int findFirst(char value, int offset) {
-        int findFirst = builder.toString().indexOf(value, offset);
-        return findFirst;
+        return builder.indexOf(Character.toString(value), offset);
+    }
+
+    public int findFirst(char value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findFirst(String value, int offset) {
-        int findFirst = builder.indexOf(value, offset);
-        return findFirst;
+        return builder.indexOf(value, offset);
+    }
+
+    public int findFirst(String value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findFirst(char[] value, int offset) {
-        String str = new String(value);
-        int findFirst = builder.indexOf(str, offset);
-        return findFirst;
+        return builder.indexOf(new String(value), offset);
+    }
+
+    public int findFirst(char[] value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findFirst(StringBuilder value, int offset) {
-        int findFirst = builder.indexOf(value.toString(), offset);
-        return findFirst;
+        return builder.indexOf(value.toString(), offset);
+    }
+
+    public int findFirst(StringBuilder value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findFirst(StringBuffer value, int offset) {
-        int findFirst = builder.indexOf(value.toString(), offset);
-        return findFirst;
+        return builder.indexOf(value.toString(), offset);
+    }
+
+    public int findFirst(StringBuffer value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findFirst(StringUtil value, int offset) {
-        int findFirst = builder.indexOf(value.toString(), offset);
-        return findFirst;
+        return builder.indexOf(value.toString(), offset);
+    }
+
+    public int findFirst(StringUtil value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findLast(char value, int offset) {
-        String str = String.valueOf(value);
-        int findLast = builder.lastIndexOf(str, offset);
-        return findLast;
+        return builder.lastIndexOf(Character.toString(value), offset);
+    }
+
+    public int findLast(char value) {
+        return new StringUtil(builder).findLast(value, builder.length());
     }
 
     public int findLast(String value, int offset) {
-        return 0;
+        return builder.lastIndexOf(value, offset);
+    }
+
+    public int findLast(String value) {
+        return new StringUtil(builder).findLast(value, builder.length());
     }
 
     public int findLast(char[] value, int offset) {
-        return 0;
+        return builder.lastIndexOf(new String(value), offset);
+    }
+
+    public int findLast(char[] value) {
+        return new StringUtil(builder).findLast(value, builder.length());
     }
 
     public int findLast(StringBuilder value, int offset) {
-        throw new UnsupportedOperationException();
+        return builder.lastIndexOf(value.toString(), offset);
+    }
+
+    public int findLast(StringBuilder value) {
+        return new StringUtil(builder).findLast(value, builder.length());
     }
 
     public int findLast(StringBuffer value, int offset) {
-        throw new UnsupportedOperationException();
+        return builder.lastIndexOf(value.toString(), offset);
+    }
+
+    public int findLast(StringBuffer value) {
+        return new StringUtil(builder).findLast(value, builder.length());
     }
 
     public int findLast(StringUtil value, int offset) {
-        throw new UnsupportedOperationException();
+        return builder.lastIndexOf(value.toString(), offset);
     }
 
+    public int findLast(StringUtil value) {
+        return new StringUtil(builder).findLast(value, builder.length());
+    }
 
     public boolean contains(char value) {
         throw new UnsupportedOperationException();
