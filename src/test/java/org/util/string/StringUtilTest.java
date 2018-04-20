@@ -52,6 +52,7 @@ public class StringUtilTest {
         System.out.println(a.findFirst('c', 2));
         System.out.println(a.findLast(b, 2));
         System.out.println(a.findLast(b));
+        System.out.println(a.contains("j"));
 
 
         System.out.println(a);

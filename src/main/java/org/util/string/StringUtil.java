@@ -626,27 +626,27 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean contains(char value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
     public boolean contains(String value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
     public boolean contains(char[] value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
     public boolean contains(StringBuilder value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
     public boolean contains(StringBuffer value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
     public boolean contains(StringUtil value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
 
