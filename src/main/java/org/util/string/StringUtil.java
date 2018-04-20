@@ -34,6 +34,15 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         ;
     }
 
+    public enum Trim {
+        BOTH,
+        LEADING,
+        TRAILING,
+
+        // placeholder
+        ;
+    }
+
     /**
      * Initializes instance with default value
      */
@@ -246,10 +255,9 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         return builder.substring(from, to).toCharArray();
     }
 
-    public StringUtil range(int from, int to) {
+    public StringUtil util(int from, int to) {
         return new StringUtil(builder.substring(from, to));
     }
-
 
     /**
      * in result of execution of this method will be insert value of argument 'int value'
@@ -259,34 +267,46 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil insert(int index, char value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, String value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, char[] value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, StringBuilder value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, StringBuffer value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, StringUtil value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public <T> T convert(Function<StringUtil, T> function) {
         return function.apply(this);
     }
 
-    public char[] allCharacters() {
+    public char[] characters() {
         char[] dst = new char[builder.length()];
         builder.getChars(0, builder.length(), dst, 0);
         return dst;
@@ -319,8 +339,13 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean isBool() {
-        Boolean bool = new Boolean();
-        return bool.equals(builder);
+        Boolean bool = new Boolean("true");
+        Boolean bool1 = new Boolean("false");
+        if (builder.toString().equals(bool.toString()) || builder.toString().equals(bool1.toString())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -354,17 +379,17 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
             case 'Q':
             case 'X':
             case 'Z':
-                return  '2';
+                return '2';
             case 'D':
             case 'T':
-                return  '3';
+                return '3';
             case 'L':
-                return  '4';
+                return '4';
             case 'M':
             case 'N':
-                return  '5';
+                return '5';
             case 'R':
-                return  '6';
+                return '6';
             default:
                 break;
         }
@@ -752,6 +777,14 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean equals(StringUtil value, Equality equality) {
+        throw new UnsupportedOperationException();
+    }
+
+    public StringUtil trim() {
+        return trim(Trim.BOTH);
+    }
+
+    public StringUtil trim(Trim trim) {
         throw new UnsupportedOperationException();
     }
 
