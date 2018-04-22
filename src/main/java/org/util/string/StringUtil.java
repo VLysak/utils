@@ -34,6 +34,15 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         ;
     }
 
+    public enum Trim {
+        BOTH,
+        LEADING,
+        TRAILING,
+
+        // placeholder
+        ;
+    }
+
     /**
      * Initializes instance with default value
      */
@@ -246,10 +255,9 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         return builder.substring(from, to).toCharArray();
     }
 
-    public StringUtil range(int from, int to) {
+    public StringUtil util(int from, int to) {
         return new StringUtil(builder.substring(from, to));
     }
-
 
     /**
      * in result of execution of this method will be insert value of argument 'int value'
@@ -259,34 +267,46 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @returns void
      */
     public StringUtil insert(int index, char value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, String value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, char[] value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, StringBuilder value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, StringBuffer value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, StringUtil value) {
-        return new StringUtil(new StringUtil(builder).builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public <T> T convert(Function<StringUtil, T> function) {
         return function.apply(this);
     }
 
-    public char[] allCharacters() {
+    public char[] characters() {
         char[] dst = new char[builder.length()];
         builder.getChars(0, builder.length(), dst, 0);
         return dst;
@@ -319,8 +339,13 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean isBool() {
-        Boolean bool = new Boolean();
-        return bool.equals(builder);
+        Boolean bool = new Boolean("true");
+        Boolean bool1 = new Boolean("false");
+        if (builder.toString().equals(bool.toString()) || builder.toString().equals(bool1.toString())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -354,17 +379,17 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
             case 'Q':
             case 'X':
             case 'Z':
-                return  '2';
+                return '2';
             case 'D':
             case 'T':
-                return  '3';
+                return '3';
             case 'L':
-                return  '4';
+                return '4';
             case 'M':
             case 'N':
-                return  '5';
+                return '5';
             case 'R':
-                return  '6';
+                return '6';
             default:
                 break;
         }
@@ -446,7 +471,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         int count = 0;
         int lastIndex = 0;
 
-        while ((lastIndex = builder.toString().indexOf(value, lastIndex)) != -1) {
+        while ((lastIndex = builder.indexOf(value, lastIndex)) != -1) {
             count++;
             lastIndex += value.length();
         }
@@ -456,13 +481,14 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     public int count(char[] value) {
         int count = 0;
         int index = 0;
+        String str = value.toString();
         while (index < size()) {
-            int indexOf = builder.indexOf(new String(value), index);
+            int indexOf = builder.indexOf(str, index);
             if (indexOf == -1) {
                 return count;
             }
             count++;
-            index = indexOf + value.length;
+            index = indexOf + str.length();
         }
         return count;
     }
@@ -472,7 +498,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         int lastIndex = 0;
         String str = value.toString();
 
-        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
+        while ((lastIndex = builder.indexOf(str, lastIndex)) != -1) {
             count++;
             lastIndex += value.length();
         }
@@ -484,7 +510,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         int lastIndex = 0;
         String str = value.toString();
 
-        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
+        while ((lastIndex = builder.indexOf(str, lastIndex)) != -1) {
             count++;
             lastIndex += value.length();
         }
@@ -496,73 +522,108 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         int lastIndex = 0;
         String str = value.toString();
 
-        while ((lastIndex = builder.toString().indexOf(str, lastIndex)) != -1) {
+        while ((lastIndex = builder.indexOf(str, lastIndex)) != -1) {
             count++;
             lastIndex += value.size();
         }
         return count;
     }
 
-    // TODO: create copy of methods findFirst, findLast with odd parameter: offset
-    // example: public int findFirst(char value, int offset) {...}
-
     public int findFirst(char value, int offset) {
-        int findFirst = builder.toString().indexOf(value, offset);
-        return findFirst;
+        return builder.indexOf(Character.toString(value), offset);
+    }
+
+    public int findFirst(char value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findFirst(String value, int offset) {
-        int findFirst = builder.indexOf(value, offset);
-        return findFirst;
+        return builder.indexOf(value, offset);
+    }
+
+    public int findFirst(String value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findFirst(char[] value, int offset) {
-        String str = new String(value);
-        int findFirst = builder.indexOf(str, offset);
-        return findFirst;
+        return builder.indexOf(new String(value), offset);
+    }
+
+    public int findFirst(char[] value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findFirst(StringBuilder value, int offset) {
-        int findFirst = builder.indexOf(value.toString(), offset);
-        return findFirst;
+        return builder.indexOf(value.toString(), offset);
+    }
+
+    public int findFirst(StringBuilder value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findFirst(StringBuffer value, int offset) {
-        int findFirst = builder.indexOf(value.toString(), offset);
-        return findFirst;
+        return builder.indexOf(value.toString(), offset);
+    }
+
+    public int findFirst(StringBuffer value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findFirst(StringUtil value, int offset) {
-        int findFirst = builder.indexOf(value.toString(), offset);
-        return findFirst;
+        return builder.indexOf(value.toString(), offset);
+    }
+
+    public int findFirst(StringUtil value) {
+        return new StringUtil(builder).findFirst(value, 0);
     }
 
     public int findLast(char value, int offset) {
-        String str = String.valueOf(value);
-        int findLast = builder.lastIndexOf(str, offset);
-        return findLast;
+        return builder.lastIndexOf(Character.toString(value), offset);
+    }
+
+    public int findLast(char value) {
+        return new StringUtil(builder).findLast(value, builder.length());
     }
 
     public int findLast(String value, int offset) {
-        return 0;
+        return builder.lastIndexOf(value, offset);
+    }
+
+    public int findLast(String value) {
+        return new StringUtil(builder).findLast(value, builder.length());
     }
 
     public int findLast(char[] value, int offset) {
-        return 0;
+        return builder.lastIndexOf(new String(value), offset);
+    }
+
+    public int findLast(char[] value) {
+        return new StringUtil(builder).findLast(value, builder.length());
     }
 
     public int findLast(StringBuilder value, int offset) {
-        throw new UnsupportedOperationException();
+        return builder.lastIndexOf(value.toString(), offset);
+    }
+
+    public int findLast(StringBuilder value) {
+        return new StringUtil(builder).findLast(value, builder.length());
     }
 
     public int findLast(StringBuffer value, int offset) {
-        throw new UnsupportedOperationException();
+        return builder.lastIndexOf(value.toString(), offset);
+    }
+
+    public int findLast(StringBuffer value) {
+        return new StringUtil(builder).findLast(value, builder.length());
     }
 
     public int findLast(StringUtil value, int offset) {
-        throw new UnsupportedOperationException();
+        return builder.lastIndexOf(value.toString(), offset);
     }
 
+    public int findLast(StringUtil value) {
+        return new StringUtil(builder).findLast(value, builder.length());
+    }
 
     public boolean contains(char value) {
         throw new UnsupportedOperationException();
@@ -752,6 +813,14 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean equals(StringUtil value, Equality equality) {
+        throw new UnsupportedOperationException();
+    }
+
+    public StringUtil trim() {
+        return trim(Trim.BOTH);
+    }
+
+    public StringUtil trim(Trim trim) {
         throw new UnsupportedOperationException();
     }
 
