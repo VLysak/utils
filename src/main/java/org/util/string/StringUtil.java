@@ -1,5 +1,6 @@
 package org.util.string;
 
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -534,7 +535,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findFirst(char value) {
-        return new StringUtil(builder).findFirst(value, 0);
+        return findFirst(value, 0);
     }
 
     public int findFirst(String value, int offset) {
@@ -542,7 +543,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findFirst(String value) {
-        return new StringUtil(builder).findFirst(value, 0);
+        return findFirst(value, 0);
     }
 
     public int findFirst(char[] value, int offset) {
@@ -550,7 +551,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findFirst(char[] value) {
-        return new StringUtil(builder).findFirst(value, 0);
+        return findFirst(value, 0);
     }
 
     public int findFirst(StringBuilder value, int offset) {
@@ -558,7 +559,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findFirst(StringBuilder value) {
-        return new StringUtil(builder).findFirst(value, 0);
+        return findFirst(value, 0);
     }
 
     public int findFirst(StringBuffer value, int offset) {
@@ -566,7 +567,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findFirst(StringBuffer value) {
-        return new StringUtil(builder).findFirst(value, 0);
+        return findFirst(value, 0);
     }
 
     public int findFirst(StringUtil value, int offset) {
@@ -574,7 +575,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findFirst(StringUtil value) {
-        return new StringUtil(builder).findFirst(value, 0);
+        return findFirst(value, 0);
     }
 
     public int findLast(char value, int offset) {
@@ -582,7 +583,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findLast(char value) {
-        return new StringUtil(builder).findLast(value, builder.length());
+        return findLast(value, builder.length());
     }
 
     public int findLast(String value, int offset) {
@@ -590,7 +591,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findLast(String value) {
-        return new StringUtil(builder).findLast(value, builder.length());
+        return findLast(value, builder.length());
     }
 
     public int findLast(char[] value, int offset) {
@@ -598,7 +599,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findLast(char[] value) {
-        return new StringUtil(builder).findLast(value, builder.length());
+        return findLast(value, builder.length());
     }
 
     public int findLast(StringBuilder value, int offset) {
@@ -606,7 +607,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findLast(StringBuilder value) {
-        return new StringUtil(builder).findLast(value, builder.length());
+        return findLast(value, builder.length());
     }
 
     public int findLast(StringBuffer value, int offset) {
@@ -614,7 +615,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findLast(StringBuffer value) {
-        return new StringUtil(builder).findLast(value, builder.length());
+        return findLast(value, builder.length());
     }
 
     public int findLast(StringUtil value, int offset) {
@@ -622,31 +623,31 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public int findLast(StringUtil value) {
-        return new StringUtil(builder).findLast(value, builder.length());
+        return findLast(value, builder.length());
     }
 
     public boolean contains(char value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
     public boolean contains(String value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
     public boolean contains(char[] value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
     public boolean contains(StringBuilder value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
     public boolean contains(StringBuffer value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
     public boolean contains(StringUtil value) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder).findFirst(value) != -1;
     }
 
 
@@ -671,6 +672,9 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil[] split(String value) {
+        String[] words = builder.toString().split(value);
+        StringUtil[] arrUtil = new StringUtil[builder.length()];
+        
         throw new UnsupportedOperationException();
     }
 
