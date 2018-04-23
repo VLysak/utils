@@ -261,7 +261,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     /**
-     * in result of execution of this method will be insert value of argument 'int value'
+     * In result of execution of this method will be insert value of argument 'int value'
      * in field 'builder' in place 'index' with create new instance StringUtil
      *
      * @arg int index, int value
@@ -627,27 +627,27 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean contains(char value) {
-        return new StringUtil(builder).findFirst(value) != -1;
+        return findFirst(value) != -1;
     }
 
     public boolean contains(String value) {
-        return new StringUtil(builder).findFirst(value) != -1;
+        return findFirst(value) != -1;
     }
 
     public boolean contains(char[] value) {
-        return new StringUtil(builder).findFirst(value) != -1;
+        return findFirst(value) != -1;
     }
 
     public boolean contains(StringBuilder value) {
-        return new StringUtil(builder).findFirst(value) != -1;
+        return findFirst(value) != -1;
     }
 
     public boolean contains(StringBuffer value) {
-        return new StringUtil(builder).findFirst(value) != -1;
+        return findFirst(value) != -1;
     }
 
     public boolean contains(StringUtil value) {
-        return new StringUtil(builder).findFirst(value) != -1;
+        return findFirst(value) != -1;
     }
 
 
@@ -668,41 +668,92 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil[] split(char value) {
-        throw new UnsupportedOperationException();
+        String[] words = builder.toString().split(Character.toString(value));
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
     }
 
     public StringUtil[] split(String value) {
         String[] words = builder.toString().split(value);
-        StringUtil[] arrUtil = new StringUtil[builder.length()];
-        
-        throw new UnsupportedOperationException();
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
     }
 
     public StringUtil[] split(char[] value) {
-        throw new UnsupportedOperationException();
+        String[] words = builder.toString().split(new String(value));
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
     }
 
     public StringUtil[] split(StringBuilder value) {
-        throw new UnsupportedOperationException();
+        String[] words = builder.toString().split(new String(value));
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
+
     }
 
     public StringUtil[] split(StringBuffer value) {
-        throw new UnsupportedOperationException();
+        String[] words = builder.toString().split(new String(value));
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
     }
 
     public StringUtil[] split(StringUtil value) {
-        throw new UnsupportedOperationException();
+        String[] words = builder.toString().split(value.toString());
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
     }
 
     /**
      * Split string util into parts which has size <= size
      * e.g. 3, 3, 3, 2
      *
-     * @param size
+     * @param sizePart
      * @return
      */
-    public StringUtil[] split(int size) {
-        throw new UnsupportedOperationException();
+    public StringUtil[] split(int sizePart) {
+        int sizeTemp = sizePart;
+        int count1 = size() % sizePart > 0 ? size() / sizePart + 1 : size() / sizePart;
+        int dif = sizePart * count1 - size();
+        StringUtil[] arrUtil = new StringUtil[count1];
+
+        for (int i = 0, j = 0; j < count1; i = i + sizePart, sizeTemp += sizePart, j++) {
+            if (dif != 0) {
+                if (sizeTemp - size() < 0) {
+                    arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
+                } else {
+                    arrUtil[j] = new StringUtil(builder.substring(i, size()));
+                }
+            }
+            if (dif == 0) {
+                arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
+            }
+        }
+        return arrUtil;
     }
 
     public StringUtil left(int length) {
@@ -772,20 +823,22 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     @Override
     public boolean equals(Object obj) {
-        if (builder.equals(obj))
-            return true;
-        else
-            return false;
+        boolean bool = false;
+        if (builder.equals(obj) || this == obj || builder.toString().equals(obj.toString()))
+            bool = true;
+        else if (obj == null || builder.getClass() != obj.getClass() || obj.toString().length() != builder.length())
+            bool = false;
+        return bool;
     }
 
     // this method group uses default
     // type
     public boolean equals(String value) {
-        throw new UnsupportedOperationException();
+        return builder.equals(value);
     }
 
     public boolean equals(char[] value) {
-        throw new UnsupportedOperationException();
+        return builder.equals(value);
     }
 
     public boolean equals(StringBuilder value) {

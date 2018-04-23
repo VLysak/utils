@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class StringUtilTest {
 
@@ -15,16 +16,16 @@ public class StringUtilTest {
 
     @Test
     public void testStringUtil() {
-        StringUtil a = new StringUtil("abcd");
+        StringUtil a = new StringUtil("a@-b@-c@-d");
         StringBuffer b = new StringBuffer(" buffer ");
         StringBuilder c = new StringBuilder(" builder ");
         StringUtil ab = a.append(b);
-        StringUtil cd = new StringUtil("abcd");
+        StringUtil cd = new StringUtil("@");
         char[] charArrays = new char[]{' ', 'c', 'h', 'a', 'r', 'A', 'r', 'r', 'a', 'r', 'y', 's', ' '};
         byte[] byteArrays = new byte[]{'\u0020', '\u0056', '\u0069', '\u0074', '\u0061', '\u006C', '\u0069', '\u006B', '\u0020'};
         Charset charset = StandardCharsets.UTF_8;
         StringUtil charDefine = new StringUtil(charArrays);
-        char[] charFind = new char[]{'d',};
+        char[] charFind = new char[]{'@','-',};
         charDefine.isBool();
 //        a.set(2,'Z');
 
@@ -52,8 +53,8 @@ public class StringUtilTest {
         System.out.println(a.findFirst('c', 2));
         System.out.println(a.findLast(b, 2));
         System.out.println(a.findLast(b));
-        System.out.println(a.contains("j"));
-
+        System.out.println(a.contains('a'));
+        System.out.println(Arrays.toString(a.split(2)));
 
         System.out.println(a);
 
