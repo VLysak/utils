@@ -756,64 +756,66 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         return arrUtil;
     }
 
+    // return substring with length 'length' starting from 0 pos
     public StringUtil left(int length) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder.substring(0, length));
     }
 
+    // return substring with length = length starting from 'from' pos
     public StringUtil left(int length, int from) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder.substring(from, from + length));
     }
 
     public StringUtil right(int length) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder.substring(size() - length, size()));
     }
 
     public boolean begins(char value) {
-        throw new UnsupportedOperationException();
+        return builder.charAt(0) == value;
     }
 
     public boolean begins(String value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(value) == 0;
     }
 
     public boolean begins(char[] value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(new String(value)) == 0;
     }
 
     public boolean begins(StringBuilder value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(new String(value)) == 0;
     }
 
     public boolean begins(StringBuffer value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(new String(value)) == 0;
     }
 
     public boolean begins(StringUtil value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(value.toString()) == 0;
     }
 
     public boolean ends(char value) {
-        throw new UnsupportedOperationException();
+        return builder.charAt(size() - 1) == value;
     }
 
     public boolean ends(String value) {
-        throw new UnsupportedOperationException();
+        return builder.lastIndexOf(value) == size() - 1;
     }
 
     public boolean ends(char[] value) {
-        throw new UnsupportedOperationException();
+        return builder.lastIndexOf(new String(value)) == size() - 1;
     }
 
     public boolean ends(StringBuilder value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(new String(value)) == size() - 1;
     }
 
     public boolean ends(StringBuffer value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(new String(value)) == size() - 1;
     }
 
     public boolean ends(StringUtil value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(value.toString()) == size() - 1;
     }
 
     @Override
