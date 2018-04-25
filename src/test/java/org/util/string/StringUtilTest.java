@@ -50,7 +50,7 @@ public class StringUtilTest {
         System.out.println(Arrays.toString(a.split(3)));
         System.out.println(Arrays.toString(a.characters(3, 7)));
         System.out.println(a.equals(cd));
-        System.out.println("'" + a.trim(StringUtil.Trim.LEADING)+"'" );
+        System.out.println("'" + a.trim(StringUtil.Trim.ALL)+"'" );
 
         System.out.println(a);
 
