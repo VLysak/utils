@@ -1,10 +1,15 @@
+package org.util.string;
+
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import java.lang.Character;
 
 public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<Character>, Comparator<StringUtil> {
 
@@ -30,65 +35,54 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         ;
     }
 
+    public enum Trim {
+        BOTH,
+        LEADING,
+        TRAILING,
+
+        // placeholder
+        ;
+    }
+
     /**
-     * StringUtil constructor.
-     * Initialize "StringBuilder builder" by concatenate "String data"
-     *
-     * @param data
-     * @returns new StringUtil (String data)
+     * Initializes instance with default value
+     */
+    private StringUtil() {
+        this.builder = new StringBuilder();
+    }
+
+    /**
+     * Initializes instance with provided value
      */
     public StringUtil(String data) {
         this.builder = new StringBuilder(data);
     }
 
     /**
-     * StringUtil constructor.
-     * Initialize "StringBuilder builder" by concatenate "StringBuffer data"
-     *
-     * @param data
-     * @returns new StringUtil (StringBuffer data)
+     * Initializes instance with provided value
      */
-
     public StringUtil(StringBuffer data) {
         this.builder = new StringBuilder(data);
-
     }
 
     /**
-     * StringUtil constructor.
-     * Initialize "StringBuilder builder" by concatenate "StringBuilder data"
-     * new StringUtil (StringBuilder data)
-     *
-     * @param data
-     * @returns void
+     * Initializes instance with provided value
      */
-
     public StringUtil(StringBuilder data) {
         this.builder = new StringBuilder(data);
     }
 
     /**
-     * StringUtil constructor.
-     * Initialize "StringBuilder builder" by concatenate "char [] data"
-     *
-     * @param data
-     * @returns new StringUtil (char [] data)
+     * Initializes instance with provided value
      */
 
     public StringUtil(char[] data) {
         this.builder = new StringBuilder().append(data);
     }
 
-
     /**
-     * StringUtil constructor.
-     * Initialize "StringBuilder builder" by concatenate "byte [] data"
-     *
-     * @param data
-     * @returns new StringUtil (byte [] data)
+     * Initializes instance with provided value
      */
-
-
     public StringUtil(byte[] data, Charset charset) {
         this(new String(data, charset));
     }
@@ -96,233 +90,219 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     /// ALL METHODS MUST RETURN NEW EXEMPLAR OF StringUtil which replace old StringUtil (other object)
 
     /**
-     * void append StringBuffer data
-     * this method append StringBuffer data to field StringBuilder builder
+     * Appends data to the end. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data - value to append
+     * @return another object with modified state
      */
     public StringUtil append(StringBuffer data) {
-        return new StringUtil(new StringBuilder(builder).append(data));
+        StringUtil other = new StringUtil(builder);
+        other.builder.append(data);
+        return other;
     }
 
     /**
-     * void append String data
-     * this method append String data to field StringBuilder builder
+     * Appends data to the end. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data - value to append
+     * @return another object with modified state
      */
     public StringUtil append(String data) {
-        // wrong - inefficient
-        return new StringUtil(builder.toString().concat(data));
+        StringUtil other = new StringUtil(builder);
+        other.builder.append(data);
+        return other;
     }
 
     /**
-     * void append StringBui
-     * lder data
-     * this method append StringBuilder data to field StringBuilder builder
+     * Appends data to the end. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data - value to append
+     * @return another object with modified state
      */
     public StringUtil append(StringBuilder data) {
-        // wrong - inefficient
-        //this.builder.append(data);
-//        return new StringUtil(this.builder.toString() + data);
-        return new StringUtil(builder.toString().concat(String.valueOf(data)));
+        StringUtil other = new StringUtil(builder);
+        other.builder.append(data);
+        return other;
     }
 
     /**
-     * void append  data
-     * this method append StringBuilder data to field StringBuilder builder
+     * Appends data to the end. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data - value to append
+     * @return another object with modified state
      */
     public StringUtil append(char[] data) {
-        // wrong - inefficient
-        return new StringUtil(builder.toString().concat(String.valueOf(data)));
+        StringUtil other = new StringUtil(builder);
+        other.builder.append(data);
+        return other;
     }
 
     /**
-     * void append data from 'byte[] data'  with 'Charset charset' over call of constructor with
-     * parameters types (byte[] data, Charset charset)
+     * Appends data to the end. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data    - value to append
+     * @param charset
+     * @return another object with modified state
      */
     public StringUtil append(byte[] data, Charset charset) {
-        return new StringUtil(builder.toString() + new StringUtil(data, charset).toString());
+        StringUtil other = new StringUtil(builder);
+        other.builder.append(new StringUtil(data, charset));
+        return other;
     }
 
-
     /**
-     * void prepend StringBuffer data
-     * this method prepend data to "StringBuffer data" from parameters
+     * Prepends data to the start. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data - value to prepend
+     * @return another object with modified state
      */
     public StringUtil prepend(StringBuffer data) {
-        // wrong
-//        return new StringUtil(data.append(builder));
-        return new StringUtil(String.valueOf(data).concat(builder.toString()));
+        StringUtil other = new StringUtil(data);
+        other.builder.append(builder);
+        return other;
     }
 
     /**
-     * void prepend String data
-     * this method prepend data from parameter to field builder
+     * Prepends data to the start. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data - value to prepend
+     * @return another object with modified state
      */
     public StringUtil prepend(String data) {
-        // wrong - inefficient
-        return new StringUtil(data.concat(builder.toString()));
-//        return new StringUtil(data.concat(String.valueOf(builder)));
-
+        StringUtil other = new StringUtil(data);
+        other.builder.append(builder);
+        return other;
     }
 
     /**
-     * void prepend StringBuilder data
-     * this method prepend StringBuilder data to field StringBuilder builder
+     * Prepends data to the start. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data - value to prepend
+     * @return another object with modified state
      */
     public StringUtil prepend(StringBuilder data) {
-        // wrong
-//        data.append(builder);
-//        return new StringUtil(data);
-        return new StringUtil(data.toString().concat(builder.toString()));
-
+        StringUtil other = new StringUtil(data);
+        other.builder.append(builder);
+        return other;
     }
 
-
     /**
-     * void prepend data
-     * this method prepend 'char[] data' to field 'StringBuilder builder'
-     * <p>
-     * 1. old data 'StringBuilder builder' append to new data 'char[] data'
-     * 1.1 convert 'char data' to type 'String'
-     * 1.1.1 create variable 'String temp'
-     * 1.1.2 to temp add new data from parameters
-     * 1.2 temp + old data from field 'builder'
-     * <p>
-     * 2.
+     * Prepends data to the start. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data - value to prepend
+     * @return another object with modified state
      */
     public StringUtil prepend(char[] data) {
-        // wrong - inefficient
-//        String temp = new String(data);
-//        return new StringUtil(temp.concat(builder.toString()));
-//        return new StringUtil(String.copyValueOf(data).concat(builder.toString()));
-        return new StringUtil(String.valueOf(data).concat(builder.toString()));
-
+        StringUtil other = new StringUtil(data);
+        other.builder.append(builder);
+        return other;
     }
 
     /**
-     * void append data from 'byte[] data'  with 'Charset charset' over call of constructor with
-     * parameters types (byte[] data, Charset charset)
-     * 1. prepend new data from 'byte[] data' to old data 'StringBuilder builder' and create new instance of
-     * StringUtil
-     * 1.1 take new data 'byte[] data' and concatenate with old data 'StringBuilder builder'
-     * 1.1.1 'byte[] data' convert to type compatible with 'StringBuilder builder'
-     * 1.1.2 concatenate new data with old data
-     * 1.2 create new instance StringUtil by call constructor with new data as parameter
+     * Prepends data to the start. Does not change state of this instance.
      *
-     * @param data
-     * @returns void
+     * @param data    - value to prepend
+     * @param charset
+     * @return another object with modified state
      */
     public StringUtil prepend(byte[] data, Charset charset) {
-        // wrong - inefficient
-        String valentina = new String(data, charset);
-        return new StringUtil(valentina.concat(builder.toString()));
+        StringUtil other = new StringUtil(data, charset);
+        other.builder.append(builder);
+        return other;
     }
 
     /**
-     * returns new instance of StringUtil which have reversed order of its data(field builder)
+     * Returns new instance which have reversed order of its field builder
      *
-     * @returns StringUtil
+     * @return another object with modified state
      */
     public StringUtil reverse() {
-        return new StringUtil(builder.reverse());
+        StringUtil other = new StringUtil(builder);
+        other.builder.reverse();
+        return other;
     }
 
     /**
-     * returns char with index
+     * Returns char by index
      *
-     * @returns StringUtil
+     * @return char
      */
-    // TODO: getCharacter
-    public char get(int index) {
+    public char character(int index) {
         return builder.charAt(index);
     }
 
     /**
-     * in result of execute this method argument 'velue' will be set in field builder to 'index'
-     * 1. set value in field builder with index
-     * 1.1 builder
+     * Returns new instance which contains builder with set 'value' to 'index'
      *
-     * @arg int index, char value
-     * @returns void
+     * @param index
+     * @param value
+     * @return another object with modified state
      */
-    // TODO: setCharacter
     public StringUtil set(int index, char value) {
-        builder.toString().toCharArray()[index] = value;
-        return new StringUtil(builder);
+        StringUtil other = new StringUtil(builder);
+        other.builder.setCharAt(index, value);
+        return other;
     }
 
     /**
-     * in result of execution of this method will be returned char[] and which
-     * will be contains all elements field builder from 'int index' to 'int to'
+     * Method will be returned char[] and which will be contains
+     * all elements field builder from 'int index' to 'int to'
      *
-     * @arg int from, int to
-     * @returns char[]
+     * @param from
+     * @param to
+     * @return char[]
      */
-    // TODO: rename to characters
     public char[] characters(int from, int to) {
-        return builder.toString().substring(from, to).toCharArray();
+        char[] dst = new char[to - from];
+        builder.getChars(from, to, dst, 0);
+        return dst;
     }
 
-    // TODO: implement newly added method
-    public StringUtil range(int from, int to) {
-        return new StringUtil(builder.toString().substring(from, to).toCharArray());
+    public StringUtil util(int from, int to) {
+        return new StringUtil(builder.substring(from, to));
     }
 
     /**
-     * in result of execution of this method will be insert value of argument 'int value'
+     * In result of execution of this method will be insert value of argument 'int value'
      * in field 'builder' in place 'index' with create new instance StringUtil
      *
      * @arg int index, int value
      * @returns void
      */
     public StringUtil insert(int index, char value) {
-        return new StringUtil(builder.insert(index, value));
-
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, String value) {
-        return new StringUtil(builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, char[] value) {
-        return new StringUtil(builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, StringBuilder value) {
-        return new StringUtil(builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, StringBuffer value) {
-        return new StringUtil(builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public StringUtil insert(int index, StringUtil value) {
-        return new StringUtil(builder.insert(index, value));
+        StringUtil other = new StringUtil(builder);
+        other.builder.insert(index, value);
+        return other;
     }
 
     public <T> T convert(Function<StringUtil, T> function) {
@@ -330,8 +310,9 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public char[] characters() {
-        // TODO: use builder.getChars
-        return builder.toString().toCharArray();
+        char[] dst = new char[builder.length()];
+        builder.getChars(0, builder.length(), dst, 0);
+        return dst;
     }
 
     @Override
@@ -357,12 +338,17 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
                 return false;
             }
         }
-
         return true;
     }
 
     public boolean isBool() {
-        throw new UnsupportedOperationException();
+        Boolean bool = new Boolean("true");
+        Boolean bool1 = new Boolean("false");
+        if (builder.toString().equals(bool.toString()) || builder.toString().equals(bool1.toString())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -371,77 +357,60 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil soundex() {
-
-        char[] ch = builder.toString().toUpperCase().toCharArray();
-
-        for (int i = 1; i < 4; i++) {
-
-            switch (ch[i]) {
-                case 'B':
-                case 'P':
-                case 'F':
-                case 'V':
-                    ch[i] = '1';
-                    break;
-                case 'C':
-                case 'S':
-                case 'K':
-                case 'G':
-                case 'J':
-                case 'Q':
-                case 'X':
-                case 'Z':
-                    ch[i] = '2';
-                    break;
-                case 'D':
-                case 'T':
-                    ch[i] = '3';
-                    break;
-                case 'L':
-                    ch[i] = '4';
-                    break;
-                case 'M':
-                case 'N':
-                    ch[i] = '5';
-                    break;
-                case 'R':
-                    ch[i] = '6';
-                    break;
-
-                default:
-                    ch[i] = '0';
-                    break;
-
-
-            }
-        }
-        char[] ch1 = new char[4];
+        StringUtil result = new StringUtil();
         for (int i = 0; i < 4; i++) {
-            ch1[i] = ch[i];
+            char c = builder.charAt(i);
+            c = Character.toUpperCase(c);
+            c = (i > 0) ? replace(c) : c;
+            result.builder.append(c);
+        }
+        return result;
+    }
+
+    private char replace(char c) {
+        switch (c) {
+            case 'B':
+            case 'P':
+            case 'F':
+            case 'V':
+                return '1';
+            case 'C':
+            case 'S':
+            case 'K':
+            case 'G':
+            case 'J':
+            case 'Q':
+            case 'X':
+            case 'Z':
+                return '2';
+            case 'D':
+            case 'T':
+                return '3';
+            case 'L':
+                return '4';
+            case 'M':
+            case 'N':
+                return '5';
+            case 'R':
+                return '6';
+            default:
+                break;
         }
 
-
-        return new StringUtil(new String(ch1));
+        return '0';
     }
 
     @Override
     public int compareTo(StringUtil o) {
-
-        if (builder.equals(o))
-            return 0;
-        else if (builder.length() - o.toString().length() > 0)
-            return 1;
-        else
-            return -1;
+        return toString().compareTo(o.toString());
     }
 
     public byte[] bytes() {
-        return builder.toString().getBytes();
+        return toString().getBytes();
     }
 
-
     public byte[] bytes(Charset charset) {
-        return builder.toString().getBytes(charset);
+        return toString().getBytes(charset);
     }
 
     private static class BuilderIterator implements Iterator<Character> {
@@ -450,7 +419,6 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         private final int cursor;
         int current = 0;
 
-
         public BuilderIterator(StringBuilder builder) {
             this.builder = builder;
             this.cursor = 0;
@@ -458,17 +426,15 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
         @Override
         public boolean hasNext() {
-            return current < builder.capacity();
+            return current < builder.length();
         }
 
         @Override
         public Character next() {
-            char[] ch = builder.toString().toCharArray();
-
-            if (builder.capacity() > current)
-                return ch[current++];
-            else
+            if (!hasNext()) {
                 throw new NoSuchElementException();
+            }
+            return builder.charAt(current++);
         }
     }
 
@@ -478,70 +444,212 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil remove(int from, int to) {
-        return new StringUtil(builder.delete(from, to));
+        return new StringUtil(new StringUtil(builder).builder.delete(from, to));
     }
 
-    // returns amount of occurences
-    public int find(char value) {
+    /**
+     * Count method occurrences
+     *
+     * @param value
+     * @return int
+     */
+    public int count(char value) {
         int count = 0;
-        for (char ch : builder.toString().toCharArray()) {
-            if (ch == value)
+        for (int i = 0; i < size(); i++) {
+            if (builder.charAt(i) == value) {
                 count++;
+            }
         }
         return count;
     }
 
-    public int find(String value) {
-
+    /**
+     * In result of execution of this method will be returned quantity of occurrences
+     * 'value' type of String into builder
+     *
+     * @param value
+     * @return int
+     */
+    public int count(String value) {
         int count = 0;
         int lastIndex = 0;
-        while ((lastIndex = builder.toString().indexOf(value, lastIndex)) != -1) {
-            count++;
-            lastIndex += value.length() ;
-        }
 
+        while ((lastIndex = builder.indexOf(value, lastIndex)) != -1) {
+            count++;
+            lastIndex += value.length();
+        }
         return count;
     }
 
-    public int find(char[] value) {
-
-        throw new UnsupportedOperationException();
+    public int count(char[] value) {
+        int count = 0;
+        int index = 0;
+        String str = value.toString();
+        while (index < size()) {
+            int indexOf = builder.indexOf(str, index);
+            if (indexOf == -1) {
+                return count;
+            }
+            count++;
+            index = indexOf + str.length();
+        }
+        return count;
     }
 
-    public int find(StringBuilder value) {
-        throw new UnsupportedOperationException();
+    public int count(StringBuilder value) {
+        int count = 0;
+        int lastIndex = 0;
+        String str = value.toString();
+
+        while ((lastIndex = builder.indexOf(str, lastIndex)) != -1) {
+            count++;
+            lastIndex += value.length();
+        }
+        return count;
     }
 
-    public int find(StringBuffer value) {
-        throw new UnsupportedOperationException();
+    public int count(StringBuffer value) {
+        int count = 0;
+        int lastIndex = 0;
+        String str = value.toString();
+
+        while ((lastIndex = builder.indexOf(str, lastIndex)) != -1) {
+            count++;
+            lastIndex += value.length();
+        }
+        return count;
     }
 
-    public int find(StringUtil value) {
-        throw new UnsupportedOperationException();
+    public int count(StringUtil value) {
+        int count = 0;
+        int lastIndex = 0;
+        String str = value.toString();
+
+        while ((lastIndex = builder.indexOf(str, lastIndex)) != -1) {
+            count++;
+            lastIndex += value.size();
+        }
+        return count;
+    }
+
+    public int findFirst(char value, int offset) {
+        return builder.indexOf(Character.toString(value), offset);
+    }
+
+    public int findFirst(char value) {
+        return findFirst(value, 0);
+    }
+
+    public int findFirst(String value, int offset) {
+        return builder.indexOf(value, offset);
+    }
+
+    public int findFirst(String value) {
+        return findFirst(value, 0);
+    }
+
+    public int findFirst(char[] value, int offset) {
+        return builder.indexOf(new String(value), offset);
+    }
+
+    public int findFirst(char[] value) {
+        return findFirst(value, 0);
+    }
+
+    public int findFirst(StringBuilder value, int offset) {
+        return builder.indexOf(value.toString(), offset);
+    }
+
+    public int findFirst(StringBuilder value) {
+        return findFirst(value, 0);
+    }
+
+    public int findFirst(StringBuffer value, int offset) {
+        return builder.indexOf(value.toString(), offset);
+    }
+
+    public int findFirst(StringBuffer value) {
+        return findFirst(value, 0);
+    }
+
+    public int findFirst(StringUtil value, int offset) {
+        return builder.indexOf(value.toString(), offset);
+    }
+
+    public int findFirst(StringUtil value) {
+        return findFirst(value, 0);
+    }
+
+    public int findLast(char value, int offset) {
+        return builder.lastIndexOf(Character.toString(value), offset);
+    }
+
+    public int findLast(char value) {
+        return findLast(value, builder.length());
+    }
+
+    public int findLast(String value, int offset) {
+        return builder.lastIndexOf(value, offset);
+    }
+
+    public int findLast(String value) {
+        return findLast(value, builder.length());
+    }
+
+    public int findLast(char[] value, int offset) {
+        return builder.lastIndexOf(new String(value), offset);
+    }
+
+    public int findLast(char[] value) {
+        return findLast(value, builder.length());
+    }
+
+    public int findLast(StringBuilder value, int offset) {
+        return builder.lastIndexOf(value.toString(), offset);
+    }
+
+    public int findLast(StringBuilder value) {
+        return findLast(value, builder.length());
+    }
+
+    public int findLast(StringBuffer value, int offset) {
+        return builder.lastIndexOf(value.toString(), offset);
+    }
+
+    public int findLast(StringBuffer value) {
+        return findLast(value, builder.length());
+    }
+
+    public int findLast(StringUtil value, int offset) {
+        return builder.lastIndexOf(value.toString(), offset);
+    }
+
+    public int findLast(StringUtil value) {
+        return findLast(value, builder.length());
     }
 
     public boolean contains(char value) {
-        throw new UnsupportedOperationException();
+        return findFirst(value) != -1;
     }
 
     public boolean contains(String value) {
-        throw new UnsupportedOperationException();
+        return findFirst(value) != -1;
     }
 
     public boolean contains(char[] value) {
-        throw new UnsupportedOperationException();
+        return findFirst(value) != -1;
     }
 
     public boolean contains(StringBuilder value) {
-        throw new UnsupportedOperationException();
+        return findFirst(value) != -1;
     }
 
     public boolean contains(StringBuffer value) {
-        throw new UnsupportedOperationException();
+        return findFirst(value) != -1;
     }
 
     public boolean contains(StringUtil value) {
-        throw new UnsupportedOperationException();
+        return findFirst(value) != -1;
     }
 
 
@@ -562,98 +670,154 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil[] split(char value) {
-        throw new UnsupportedOperationException();
+        String[] words = builder.toString().split(Character.toString(value));
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
     }
 
     public StringUtil[] split(String value) {
-        throw new UnsupportedOperationException();
+        String[] words = builder.toString().split(value);
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
     }
 
     public StringUtil[] split(char[] value) {
-        throw new UnsupportedOperationException();
+        String[] words = builder.toString().split(new String(value));
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
     }
 
     public StringUtil[] split(StringBuilder value) {
-        throw new UnsupportedOperationException();
+        String[] words = builder.toString().split(new String(value));
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
+
     }
 
     public StringUtil[] split(StringBuffer value) {
-        throw new UnsupportedOperationException();
+        String[] words = builder.toString().split(new String(value));
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
     }
 
     public StringUtil[] split(StringUtil value) {
-        throw new UnsupportedOperationException();
+        String[] words = builder.toString().split(value.toString());
+        StringUtil[] arrUtil = new StringUtil[words.length];
+
+        for (int i = 0; i < words.length; i++) {
+            arrUtil[i] = new StringUtil(words[i]);
+        }
+        return arrUtil;
     }
 
     /**
      * Split string util into parts which has size <= size
      * e.g. 3, 3, 3, 2
      *
-     * @param size
+     * @param sizePart
      * @return
      */
-    public StringUtil[] split(int size) {
-        throw new UnsupportedOperationException();
+    public StringUtil[] split(int sizePart) {
+        int sizeTemp = sizePart;
+        int count1 = size() % sizePart > 0 ? size() / sizePart + 1 : size() / sizePart;
+        int dif = sizePart * count1 - size();
+        StringUtil[] arrUtil = new StringUtil[count1];
+
+        for (int i = 0, j = 0; j < count1; i = i + sizePart, sizeTemp += sizePart, j++) {
+            if (dif != 0) {
+                if (sizeTemp - size() < 0) {
+                    arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
+                } else {
+                    arrUtil[j] = new StringUtil(builder.substring(i, size()));
+                }
+            }
+            if (dif == 0) {
+                arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
+            }
+        }
+        return arrUtil;
     }
 
+    // return substring with length 'length' starting from 0 pos
     public StringUtil left(int length) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder.substring(0, length));
     }
 
+    // return substring with length = length starting from 'from' pos
     public StringUtil left(int length, int from) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder.substring(from, from + length));
     }
 
     public StringUtil right(int length) {
-        throw new UnsupportedOperationException();
+        return new StringUtil(builder.substring(size() - length, size()));
     }
 
     public boolean begins(char value) {
-        throw new UnsupportedOperationException();
+        return builder.charAt(0) == value;
     }
 
     public boolean begins(String value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(value) == 0;
     }
 
     public boolean begins(char[] value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(new String(value)) == 0;
     }
 
     public boolean begins(StringBuilder value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(new String(value)) == 0;
     }
 
     public boolean begins(StringBuffer value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(new String(value)) == 0;
     }
 
     public boolean begins(StringUtil value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(value.toString()) == 0;
     }
 
     public boolean ends(char value) {
-        throw new UnsupportedOperationException();
+        return builder.charAt(size() - 1) == value;
     }
 
     public boolean ends(String value) {
-        throw new UnsupportedOperationException();
+        return builder.lastIndexOf(value) == size() - 1;
     }
 
     public boolean ends(char[] value) {
-        throw new UnsupportedOperationException();
+        return builder.lastIndexOf(new String(value)) == size() - 1;
     }
 
     public boolean ends(StringBuilder value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(new String(value)) == size() - 1;
     }
 
     public boolean ends(StringBuffer value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(new String(value)) == size() - 1;
     }
 
     public boolean ends(StringUtil value) {
-        throw new UnsupportedOperationException();
+        return builder.indexOf(value.toString()) == size() - 1;
     }
 
     @Override
@@ -663,28 +827,34 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
     @Override
     public boolean equals(Object obj) {
-        throw new UnsupportedOperationException();
+        boolean bool = false;
+        if (builder.equals(obj) || this == obj || builder.toString().equals(obj.toString()))
+            bool = true;
+        else if (obj == null || builder.getClass() != obj.getClass() || obj.toString().length() != builder.length())
+            bool = false;
+        return bool;
     }
 
-    // this method group uses default equality type
+    // this method group uses default
+    // type
     public boolean equals(String value) {
-        throw new UnsupportedOperationException();
+        return toString().equals(value);
     }
 
     public boolean equals(char[] value) {
-        throw new UnsupportedOperationException();
+        return toString().equals(new String(value));
     }
 
     public boolean equals(StringBuilder value) {
-        throw new UnsupportedOperationException();
+        return toString().equals(value.toString());
     }
 
     public boolean equals(StringBuffer value) {
-        throw new UnsupportedOperationException();
+        return toString().equals(value.toString());
     }
 
     public boolean equals(StringUtil value) {
-        throw new UnsupportedOperationException();
+        return toString().equals(value.toString());
     }
 
     public boolean equals(String value, Equality equality) {
@@ -707,28 +877,41 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public int compare(StringUtil o1, StringUtil o2) {
-        throw new UnsupportedOperationException();
+//    public StringUtil trim() {
+//        return trim(Trim.BOTH);
+//    }
+
+    public StringUtil trim(Trim trim) {
+
+        String str = "";
+        char[] charArray = new char[size()];
+
+        builder.getChars(0, size(), charArray, 0);
+        if (trim == Trim.BOTH) {
+            str = toString().trim();
+        } else if (trim == Trim.LEADING) {
+            int j = 0;
+            for (int i = 0; i < size(); i++) {
+                if (charArray[i] != ' ' && j == 0) {
+                    j = i;
+                }
+            }
+            str = toString().substring(j, size());
+        } else if (trim == Trim.TRAILING) {
+            int j = 0;
+            for (int i = size() - 1; i > 0; i--) {
+                if (charArray[i] != ' ' && j == 0) {
+                    j = i + 1;
+                }
+            }
+            str = toString().substring(0, j);
+        }
+        return new StringUtil(str);
+
     }
 
-    public static void main(String[] args) {
-        StringUtil a = new StringUtil("abc");
-
-        StringBuffer b = new StringBuffer().append("b");
-        System.out.println(a); // a
-        System.out.println(b); // b
-
-        StringUtil ab = a.append(b);
-        System.out.println(a); // a
-        System.out.println(b); // b
-        System.out.println(ab); // ab
-        System.out.println(ab.reverse());
-        System.out.println(ab.prepend("sd"));
-        System.out.println(ab.get(1));
-        System.out.println(a.insert(1, a));
-        System.out.println(a.soundex());
-        System.out.println(a.find("a"));
-
+    @Override
+    public int compare(StringUtil o1, StringUtil o2) {
+        return o1.compareTo(o2);
     }
 }
