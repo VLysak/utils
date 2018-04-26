@@ -1,9 +1,7 @@
 package org.util.string;
 
-import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -744,16 +742,15 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         int dif = sizePart * count1 - size();
         StringUtil[] arrUtil = new StringUtil[count1];
 
-        for (int i = 0, j = 0; j < count1; i = i + sizePart, sizeTemp += sizePart, j++) {
+        for (int i = 0, j = 0; j < count1; i += sizePart, sizeTemp += sizePart, j++) {
             if (dif != 0) {
                 if (sizeTemp - size() < 0) {
-                    arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
+                    arrUtil[j] = util(i, sizeTemp);
                 } else {
-                    arrUtil[j] = new StringUtil(builder.substring(i, size()));
+                    arrUtil[j] = util(i, size());
                 }
-            }
-            else if (dif == 0) {
-                arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
+            } else if (dif == 0) {
+                arrUtil[j] = util(i, sizeTemp);
             }
         }
         return arrUtil;

@@ -16,7 +16,7 @@ public class StringUtilTest {
 
     @Test
     public void testStringUtil() {
-        StringUtil a = new StringUtil("   a@- b@- c@- d  ");
+        StringUtil a = new StringUtil("   a@- b@- c@- d   ");
         StringBuffer b = new StringBuffer("   a@- b@- c@- d   ");
         StringBuilder c = new StringBuilder("   a@- b@- c@- d   ");
         StringUtil ab = a.append(b);
@@ -40,20 +40,16 @@ public class StringUtilTest {
         System.out.println(a.reverse());
         System.out.println(a.soundex());
         System.out.println(a.set(2, 'x'));
-        System.out.println(a.util(1, 3));
+        System.out.println(a.util(5, 7));
         System.out.println(a.compareTo(cd));
-        System.out.println(a.remove(1, 3));
+        System.out.println(a.remove(1, 7));
         System.out.println(a.isBool());
         System.out.println(charDefine.count(charFind));
         System.out.println(a.contains('a'));
         System.out.println("'" + a.trim(StringUtil.Trim.ALL) + "'");
-        System.out.println(a.equals(cd, StringUtil.Equality.REFERENCE));
-        System.out.println(a.equals(cd, StringUtil.Equality.LENGTH));
-        System.out.println(a.equals(cd, StringUtil.Equality.VALUE));
-        System.out.println(a.equals(cd, StringUtil.Equality.IGNORE_CASE));
         System.out.println(Arrays.toString(a.split(3)));
 
-        System.out.println(a);
+        System.out.println("'" + a + "'");
 
 
     }
