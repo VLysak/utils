@@ -54,7 +54,7 @@ public class StringUtilTest {
 
         System.out.println(a);
 
-        String [] strs = {"", " ", "          ", "  b  "};
+        String [] strs = {"", " ", "          ", "  b  ", "  a  b  c  d "};
         for (String s : strs) {
             System.out.println("input = \'" + s + "\'");
             StringUtil su = new StringUtil(s);
