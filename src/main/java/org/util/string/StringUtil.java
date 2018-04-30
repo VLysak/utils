@@ -253,7 +253,9 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return char[]
      */
     public char[] characters(int from, int to) {
-        return builder.substring(from, to).toCharArray();
+        char[] dst = new char[to - from];
+        builder.getChars(from, to, dst, 0);
+        return dst;
     }
 
     public StringUtil util(int from, int to) {
@@ -836,23 +838,23 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     // this method group uses default
     // type
     public boolean equals(String value) {
-        return builder.equals(value);
+        return toString().equals(value);
     }
 
     public boolean equals(char[] value) {
-        return builder.equals(value);
+        return equals(new String(value));
     }
 
     public boolean equals(StringBuilder value) {
-        throw new UnsupportedOperationException();
+        return equals(value.toString());
     }
 
     public boolean equals(StringBuffer value) {
-        throw new UnsupportedOperationException();
+        return builder.equals(value);
     }
 
     public boolean equals(StringUtil value) {
-        throw new UnsupportedOperationException();
+        return equals(value.builder);
     }
 
     public boolean equals(String value, Equality equality) {
@@ -880,7 +882,35 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public StringUtil trim(Trim trim) {
-        throw new UnsupportedOperationException();
+
+        String str = "";
+        char[] charArray = new char[size()];
+
+        builder.getChars(0, size(), charArray, 0);
+        if (trim == Trim.BOTH) {
+            str = toString().trim();
+        } else if (trim == Trim.LEADING) {
+            int j = 0;
+            for (int i = 0; i < size(); i++) {
+                if (charArray[i] != ' ' && j == 0) {
+                    j = i;
+                }
+            }
+            if (j == 0) {
+                j = size();
+            }
+            str = toString().substring(j, size());
+        } else if (trim == Trim.TRAILING) {
+            int j = 0;
+            for (int i = size() - 1; i > 0; i--) {
+                if (charArray[i] != ' ' && j == 0) {
+                    j = i + 1;
+                }
+            }
+            str = toString().substring(0, j);
+        }
+        return new StringUtil(str);
+
     }
 
     @Override
