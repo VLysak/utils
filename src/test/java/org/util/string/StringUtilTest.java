@@ -47,11 +47,19 @@ public class StringUtilTest {
         System.out.println(charDefine.count(charFind));
         System.out.println(a.contains('a'));
         System.out.println("'" + a.trim(StringUtil.Trim.ALL) + "'");
-        System.out.println(Arrays.toString(a.split(3)));
 
         System.out.println("'" + a + "'");
 
-
+        String [] strs = {"", " ", "          ", "  b  ", "  a  b  c  d "};
+        for (String s : strs) {
+            System.out.println("input = \'" + s + "\'");
+            StringUtil su = new StringUtil(s);
+            for (StringUtil.Trim t: StringUtil.Trim.values()) {
+                System.out.println(t + "\t'" + su.trim(t)+"'" );
+            }
+        }
+        System.out.println(Arrays.toString(a.split(3)));
+        System.out.println(a);
     }
 
     @Test
