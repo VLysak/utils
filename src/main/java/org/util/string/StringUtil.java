@@ -745,14 +745,14 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         StringUtil[] arrUtil = new StringUtil[count1];
 
         for (int i = 0, j = 0; j < count1; i = i + sizePart, sizeTemp += sizePart, j++) {
-            if (dif != 0) {
+            if (dif == 0) {
+                arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
+            } else {
                 if (sizeTemp - size() < 0) {
                     arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
                 } else {
                     arrUtil[j] = new StringUtil(builder.substring(i, size()));
                 }
-            } else if (dif == 0) {
-                arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
             }
         }
         return arrUtil;
