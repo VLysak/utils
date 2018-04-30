@@ -55,7 +55,14 @@ public class StringUtilTest {
 
         System.out.println(a);
 
-
+        String [] strs = {"", " ", "          ", "  b  ", "  a  b  c  d "};
+        for (String s : strs) {
+            System.out.println("input = \'" + s + "\'");
+            StringUtil su = new StringUtil(s);
+            for (StringUtil.Trim t: StringUtil.Trim.values()) {
+                System.out.println(t + "\t'" + su.trim(t)+"'" );
+            }
+        }
     }
 
     @Test

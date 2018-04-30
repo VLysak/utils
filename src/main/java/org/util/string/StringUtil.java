@@ -844,19 +844,19 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean equals(char[] value) {
-        return toString().equals(new String(value));
+        return equals(new String(value));
     }
 
     public boolean equals(StringBuilder value) {
-        return toString().equals(value.toString());
+        return equals(value.toString());
     }
 
     public boolean equals(StringBuffer value) {
-        return toString().equals(value.toString());
+        return builder.equals(value);
     }
 
     public boolean equals(StringUtil value) {
-        return toString().equals(value.toString());
+        return equals(value.builder);
     }
 
     //    REFERENCE,  only reference should match
@@ -913,6 +913,9 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
                 if (charArray[i] != ' ' && j == 0) {
                     j = i;
                 }
+            }
+            if (j == 0) {
+                j = size();
             }
             str = toString().substring(j, size());
         } else if (trim == Trim.TRAILING) {
