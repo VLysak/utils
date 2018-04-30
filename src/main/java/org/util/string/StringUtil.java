@@ -745,15 +745,14 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         StringUtil[] arrUtil = new StringUtil[count1];
 
         for (int i = 0, j = 0; j < count1; i = i + sizePart, sizeTemp += sizePart, j++) {
-            if (dif != 0) {
+            if (dif == 0) {
+                arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
+            } else {
                 if (sizeTemp - size() < 0) {
                     arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
                 } else {
                     arrUtil[j] = new StringUtil(builder.substring(i, size()));
                 }
-            }
-            if (dif == 0) {
-                arrUtil[j] = new StringUtil(builder.substring(i, sizeTemp));
             }
         }
         return arrUtil;
@@ -826,56 +825,63 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         return builder.hashCode();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        boolean bool = false;
-        if (builder.equals(obj) || this == obj || builder.toString().equals(obj.toString()))
-            bool = true;
-        else if (obj == null || builder.getClass() != obj.getClass() || obj.toString().length() != builder.length())
-            bool = false;
-        return bool;
-    }
-
     // this method group uses default
     // type
+
     public boolean equals(String value) {
-        return toString().equals(value);
+        return equals(value, Equality.VALUE);
     }
 
     public boolean equals(char[] value) {
-        return equals(new String(value));
+        return equals(value, Equality.VALUE);
     }
 
     public boolean equals(StringBuilder value) {
-        return equals(value.toString());
+        return equals(value, Equality.VALUE);
     }
 
     public boolean equals(StringBuffer value) {
-        return builder.equals(value);
+        return equals(value, Equality.VALUE);
     }
 
     public boolean equals(StringUtil value) {
-        return equals(value.builder);
+        return equals(value, Equality.VALUE);
     }
 
+    //    REFERENCE,  only reference should match
+//    LENGTH,  strings are equal if length same
+//    VALUE,  strings are equal if value is the same -- default one
+//    IGNORE_CASE  string are equal if value is equal but ignoring case differences
     public boolean equals(String value, Equality equality) {
-        throw new UnsupportedOperationException();
+        boolean bool;
+        if (equality == Equality.REFERENCE && toString() == value) {
+            bool = true;
+        } else if (equality == Equality.LENGTH && size() == value.length()) {
+            bool = true;
+        } else if (equality == Equality.VALUE && toString().equals(value)) {
+            bool = true;
+        } else if (equality == Equality.IGNORE_CASE && toString().toUpperCase().equals(value.toUpperCase())) {
+            bool = true;
+        } else {
+            bool = false;
+        }
+        return bool;
     }
 
     public boolean equals(char[] value, Equality equality) {
-        throw new UnsupportedOperationException();
+        return equals(new String(value), equality);
     }
 
     public boolean equals(StringBuilder value, Equality equality) {
-        throw new UnsupportedOperationException();
+        return equals(new String(value), equality);
     }
 
     public boolean equals(StringBuffer value, Equality equality) {
-        throw new UnsupportedOperationException();
+        return equals(new String(value), equality);
     }
 
     public boolean equals(StringUtil value, Equality equality) {
-        throw new UnsupportedOperationException();
+        return equals(value.toString(), equality);
     }
 
     public StringUtil trim() {
@@ -922,7 +928,6 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
             str = strTmp.substring(0, j);
         }
         return new StringUtil(str);
-
     }
 
     @Override

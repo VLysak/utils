@@ -16,11 +16,11 @@ public class StringUtilTest {
 
     @Test
     public void testStringUtil() {
-        StringUtil a = new StringUtil("   a@- b@- c@- d   ");
-        StringBuffer b = new StringBuffer(" buffer ");
-        StringBuilder c = new StringBuilder("a@-b@-c@-d");
+        StringUtil a = new StringUtil("   a@- b@- c@- d  ");
+        StringBuffer b = new StringBuffer("   a@- b@- c@- d   ");
+        StringBuilder c = new StringBuilder("   a@- b@- c@- d   ");
         StringUtil ab = a.append(b);
-        StringUtil cd = new StringUtil("a@-b@-c@-d");
+        StringUtil cd = new StringUtil("   a@- b@- c@- d   ");
         char[] charArrays = new char[]{' ', 'c', 'h', 'a', 'r', 'A', 'r', 'r', 'a', 'r', 'y', 's', ' '};
         byte[] byteArrays = new byte[]{'\u0020', '\u0056', '\u0069', '\u0074', '\u0061', '\u006C', '\u0069', '\u006B', '\u0020'};
         Charset charset = StandardCharsets.UTF_8;
@@ -45,12 +45,13 @@ public class StringUtilTest {
         System.out.println(a.remove(1, 3));
         System.out.println(a.isBool());
         System.out.println(charDefine.count(charFind));
-        System.out.println(a.findLast(b));
         System.out.println(a.contains('a'));
+        System.out.println("'" + a.trim(StringUtil.Trim.ALL) + "'");
+        System.out.println(a.equals(cd, StringUtil.Equality.REFERENCE));
+        System.out.println(a.equals(cd, StringUtil.Equality.LENGTH));
+        System.out.println(a.equals(cd, StringUtil.Equality.VALUE));
+        System.out.println(a.equals(cd, StringUtil.Equality.IGNORE_CASE));
         System.out.println(Arrays.toString(a.split(3)));
-        System.out.println(Arrays.toString(a.characters(3, 7)));
-        System.out.println(a.equals(cd));
-        System.out.println("'" + a.trim(StringUtil.Trim.ALL)+"'" );
 
         System.out.println(a);
 
