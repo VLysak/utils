@@ -39,6 +39,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         BOTH,
         LEADING,
         TRAILING,
+        ALL,
 
         // placeholder
         ;
@@ -885,8 +886,8 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
 
         String str = "";
         char[] charArray = new char[size()];
-
         builder.getChars(0, size(), charArray, 0);
+
         if (trim == Trim.BOTH) {
             str = toString().trim();
         } else if (trim == Trim.LEADING) {
@@ -908,6 +909,17 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
                 }
             }
             str = toString().substring(0, j);
+        } else if (trim == Trim.ALL) {
+            int j = 0;
+            char[] tempArray = new char[size()];
+            for (int i = 0; i < size() - 1; i++) {
+                if (charArray[i] != ' ') {
+                    tempArray[j] = charArray[i];
+                    j++;
+                }
+            }
+            String strTmp = new String(tempArray);
+            str = strTmp.substring(0, j);
         }
         return new StringUtil(str);
 
