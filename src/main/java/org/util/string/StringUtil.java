@@ -842,11 +842,11 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean equals(char[] value) {
-        return toString().equals(new String(value));
+        return equals(new String(value));
     }
 
     public boolean equals(StringBuilder value) {
-        return builder.equals(value);
+        return equals(value.toString());
     }
 
     public boolean equals(StringBuffer value) {
@@ -854,7 +854,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean equals(StringUtil value) {
-        return toString().equals(value.toString());
+        return equals(value.builder);
     }
 
     public boolean equals(String value, Equality equality) {
