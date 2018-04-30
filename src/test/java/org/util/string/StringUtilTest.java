@@ -51,10 +51,16 @@ public class StringUtilTest {
         System.out.println(Arrays.toString(a.characters(3, 7)));
         System.out.println(a.equals(cd));
         System.out.println("'" + a.trim(StringUtil.Trim.LEADING)+"'" );
-
         System.out.println(a);
 
-
+        String [] strs = {"", " ", "          ", "  b  "};
+        for (String s : strs) {
+            System.out.println("input = \'" + s + "\'");
+            StringUtil su = new StringUtil(s);
+            for (StringUtil.Trim t: StringUtil.Trim.values()) {
+                System.out.println(t + "\t'" + su.trim(t)+"'" );
+            }
+        }
     }
 
     @Test

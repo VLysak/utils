@@ -846,11 +846,11 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean equals(StringBuilder value) {
-        return toString().equals(value.toString());
+        return builder.equals(value);
     }
 
     public boolean equals(StringBuffer value) {
-        return toString().equals(value.toString());
+        return builder.equals(value);
     }
 
     public boolean equals(StringUtil value) {
@@ -877,9 +877,9 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         throw new UnsupportedOperationException();
     }
 
-//    public StringUtil trim() {
-//        return trim(Trim.BOTH);
-//    }
+    public StringUtil trim() {
+        return trim(Trim.BOTH);
+    }
 
     public StringUtil trim(Trim trim) {
 
@@ -895,6 +895,9 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
                 if (charArray[i] != ' ' && j == 0) {
                     j = i;
                 }
+            }
+            if (j == 0) {
+                j = size();
             }
             str = toString().substring(j, size());
         } else if (trim == Trim.TRAILING) {
