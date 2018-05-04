@@ -1,70 +1,177 @@
 package org.util.string;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.EnumSource;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class StringUtilTest {
 
+    public enum Polindrome {
+        k,
+        r,
+        d;
+    }
+
+    // test<MethodName><Expectation><When>
+    // testSplitReturnEmptyArrayWhenInputStringIsEmpty
     @Test
     public void testDoNothing() {
         System.out.println("This is a dummy test");
     }
 
     @Test
-    public void testStringUtil() {
-        StringUtil a = new StringUtil("   a@- b@- c@- d   ");
-        StringBuffer b = new StringBuffer("   a@- b@- c@- d   ");
-        StringBuilder c = new StringBuilder("   a@- b@- c@- d   ");
-        StringUtil ab = a.append(b);
-        StringUtil cd = new StringUtil("   a@- b@- c@- d   ");
-        char[] charArrays = new char[]{' ', 'c', 'h', 'a', 'r', 'A', 'r', 'r', 'a', 'r', 'y', 's', ' '};
-        byte[] byteArrays = new byte[]{'\u0020', '\u0056', '\u0069', '\u0074', '\u0061', '\u006C', '\u0069', '\u006B', '\u0020'};
-        Charset charset = StandardCharsets.UTF_8;
-        StringUtil charDefine = new StringUtil(charArrays);
-        char[] charFind = new char[]{'a', '@', '-', 'b', '@', '-', 'c', '@', '-', 'd',};
-        charDefine.isBool();
-//        a.set(2,'Z');
-
-//        System.out.println(a); // a
-//        System.out.println(b); // b
-//        System.out.println(ab); // ab
-//        System.out.println(a.insert(1, a));
-//        System.out.println(a.count('b'));
-//        System.out.println(a.set(0, 'k'));
-//        System.out.println(a.findLast('b', a.size()));
-        System.out.println(a);
-        System.out.println(a.reverse());
-        System.out.println(a.soundex());
-        System.out.println(a.set(2, 'x'));
-        System.out.println(a.util(5, 7));
-        System.out.println(a.compareTo(cd));
-        System.out.println(a.remove(1, 7));
-        System.out.println(a.isBool());
-        System.out.println(charDefine.count(charFind));
-        System.out.println(a.contains('a'));
-        System.out.println("'" + a.trim(StringUtil.Trim.ALL) + "'");
-
-        System.out.println("'" + a + "'");
-
-        String [] strs = {"", " ", "          ", "  b  ", "  a  b  c  d "};
-        for (String s : strs) {
-            System.out.println("input = \'" + s + "\'");
-            StringUtil su = new StringUtil(s);
-            for (StringUtil.Trim t: StringUtil.Trim.values()) {
-                System.out.println(t + "\t'" + su.trim(t)+"'" );
-            }
-        }
-        System.out.println(Arrays.toString(a.split(3)));
-        System.out.println(a);
+    public void testDoNothingSupposedToFail() {
+//        Assert.fail();
     }
 
     @Test
-    public void testDoNothingSupposedToFail() {
-//        Assert.fail();
+    public void testSplit() {
+        StringUtil abc = new StringUtil("a@-");
+        StringUtil[] actual = abc.split("");
+        assertEquals("a", actual[0].toString());
+    }
+
+    @Test
+    public void testSplitReturnEmptyArrayWhenInputStringIsEmpty() {
+        StringUtil abc = new StringUtil("");
+        StringUtil[] actual = abc.split("hjgj");
+        assertEquals(Arrays.toString(new StringUtil[]{}), Arrays.toString(actual));
+    }
+
+    @Test
+    public void testSplitReturnsRmptyArrayWhenIn() {
+        StringUtil abc = new StringUtil("1");
+        StringUtil[] actual = abc.split(1);
+        assertEquals(Arrays.toString(new StringUtil[]{new StringUtil("1")}), Arrays.toString(actual));
+    }
+
+    @Test
+    public void testSizeWithEmptyStringUtil() {
+        int actual = new StringUtil("").size();
+        assertEquals(0, actual);
+    }
+
+    @Test
+    public void testSizeStringUtilWithString() {
+        int actual = new StringUtil(" qwerty ").size();
+        assertEquals(8, actual);
+    }
+
+    @Test
+    public void testSizeStringUtilWithCharArray() {
+        char[] charArrays = new char[]{' ', 'c', 'h', 'a', 'r', ' '};
+        int actual = new StringUtil(charArrays).size();
+        assertEquals(6, actual);
+    }
+
+    @Test
+    public void testCharacterGetFirstElement() {
+        StringUtil a = new StringUtil("qwerty");
+        char actual = a.character(0);
+        assertEquals('q', actual);
+    }
+
+    @Test
+    public void testCharacterGetLastElement() {
+        StringUtil a = new StringUtil("q");
+        char actual = a.character(a.size() - 1);
+        assertEquals('q', actual);
+    }
+
+    @Test
+    public void testAppendStringBufferData() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.append(new StringBuffer("asdfg"));
+        assertEquals("qwertyasdfg", actual.toString());
+    }
+
+    @Test
+    public void testAppendEmptyStringBufferData() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.append(new StringBuffer(""));
+        assertEquals("qwerty", actual.toString());
+    }
+
+    @Test
+    public void testPrependStringBufferData() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.prepend(new StringBuffer("asdfg"));
+        assertEquals("asdfgqwerty", actual.toString());
+    }
+
+    @Test
+    public void testReverse() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.reverse();
+        assertEquals("ytrewq", actual.toString());
+    }
+
+    @Test
+    public void testReverseEmpty() {
+        StringUtil stringUtil = new StringUtil("");
+        StringUtil actual = stringUtil.reverse();
+        assertEquals("", actual.toString());
+    }
+
+    @ParameterizedTest
+    @EnumSource(Polindrome.class)
+    public void testReverseOneElement() {
+        List<StringUtil> stringArray = new ArrayList<>();
+        stringArray.add(new StringUtil(new char[]{'k'}));
+        stringArray.add(new StringUtil(new char[]{'r'}));
+        stringArray.add(new StringUtil(new char[]{'d'}));
+
+        assertAll(() -> assertEquals(Polindrome.k.toString(), stringArray.get(0).reverse().toString()),
+                () -> assertEquals(Polindrome.r.toString(), stringArray.get(1).reverse().toString()),
+                () -> assertEquals(Polindrome.d.toString(), stringArray.get(2).reverse().toString())
+        );
+
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"kayak", "rotator", "dad"})
+    public void testReversePalindromeParameterized(String polyndrom) {
+        StringUtil a = new StringUtil(polyndrom);
+        assertEquals(polyndrom, a.reverse().toString());
+    }
+
+    @Test
+    public void testReversePalindrome() {
+        List<StringUtil> stringArray = new ArrayList<>();
+        stringArray.add(new StringUtil("kayak"));
+        stringArray.add(new StringUtil("rotator"));
+        stringArray.add(new StringUtil("dad"));
+
+        assertAll(() -> assertEquals(stringArray.get(0).toString(), stringArray.get(0).reverse().toString()),
+                () -> assertEquals(stringArray.get(1).toString(), stringArray.get(1).reverse().toString()),
+                () -> assertEquals(stringArray.get(2).toString(), stringArray.get(2).reverse().toString())
+        );
+    }
+
+    @Test
+    public void testSet() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.set(5, 'a');
+        assertEquals("qwerta", actual.toString());
+    }
+
+    @Test
+    public void testUtil() throws Exception {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.util(1, 5);
+        assertEquals("wert", actual.toString());
     }
 
 }
