@@ -139,7 +139,6 @@ public class StringUtilTest {
                 () -> assertEquals(Palindrome.r.toString(), stringArray.get(1).reverse().toString()),
                 () -> assertEquals(Palindrome.d.toString(), stringArray.get(2).reverse().toString())
         );
-
     }
 
     @ParameterizedTest
@@ -157,10 +156,36 @@ public class StringUtilTest {
     }
 
     @Test
+    public void testSetElementsInDifferentPlaces() {
+        StringUtil input = new StringUtil("kvadrat");
+
+        assertAll("testing set first, last and central elements",
+                () -> assertEquals("svadrat", input.set(0, 's').toString()),
+                () -> assertEquals("kvadrad", input.set(input.size() - 1, 'd').toString()),
+                () -> assertEquals("kvanrat", input.set(input.size() / 2, 'n').toString())
+        );
+    }
+
+    @Test
     public void testUtilReturnCorrectSubstring() throws Exception {
         StringUtil input = new StringUtil("qwerty");
         StringUtil actual = input.util(1, 5);
         assertEquals("wert", actual.toString());
     }
+
+    @Test
+    public void testUtilReturnCorrectSubstringWithLastElement() {
+        StringUtil input = new StringUtil("qwerty");
+        StringUtil actual = input.util(5, 6);
+        assertEquals("y", actual.toString());
+    }
+
+    @Test
+    public void testUtilReturnCorrectSubstringWithFirstElement() {
+        StringUtil input = new StringUtil("qwerty");
+        StringUtil actual = input.util(0, 1);
+        assertEquals("q", actual.toString());
+    }
+
 
 }
