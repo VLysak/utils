@@ -48,7 +48,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testSplitReturnArrayWithCorrectSireReturnedArray() {
+    public void testSplitHasCorrectSizeWhenReturnedArray() {
         StringUtil input = new StringUtil("a@-b@");
         StringUtil[] actual = input.split(3);
         int expected = 2;
