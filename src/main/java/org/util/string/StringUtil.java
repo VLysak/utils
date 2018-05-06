@@ -239,7 +239,11 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      */
     public StringUtil set(int index, char value) {
         StringUtil other = new StringUtil(builder);
-        other.builder.setCharAt(index, value);
+        if (other.size() == 0) {
+            other.builder.append(value);
+        } else {
+            other.builder.setCharAt(index, value);
+        }
         return other;
     }
 

@@ -1,24 +1,19 @@
 package org.util.string;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 public class StringUtilTest {
 
-    public enum Polindrome {
+    public enum Palindrome {
         k,
         r,
         d;
@@ -26,151 +21,145 @@ public class StringUtilTest {
 
     // test<MethodName><Expectation><When>
     // testSplitReturnEmptyArrayWhenInputStringIsEmpty
-    @Test
-    public void testDoNothing() {
-        System.out.println("This is a dummy test");
-    }
 
     @Test
-    public void testDoNothingSupposedToFail() {
-//        Assert.fail();
-    }
-
-    @Test
-    public void testSplit() {
-        StringUtil abc = new StringUtil("a@-");
-        StringUtil[] actual = abc.split("");
-        assertEquals("a", actual[0].toString());
+    public void testSplitReturnArrayWhenSplitStringIsEmpty() {
+        StringUtil input = new StringUtil("a@-");
+        StringUtil[] actual = input.split("");
+        assertAll(() -> assertEquals("a", actual[0].toString()),
+                () -> assertEquals("@", actual[1].toString()),
+                () -> assertEquals("-", actual[2].toString()));
     }
 
     @Test
     public void testSplitReturnEmptyArrayWhenInputStringIsEmpty() {
-        StringUtil abc = new StringUtil("");
-        StringUtil[] actual = abc.split("hjgj");
-        assertEquals(Arrays.toString(new StringUtil[]{}), Arrays.toString(actual));
+        StringUtil input = new StringUtil("");
+        StringUtil[] actual = input.split("hjgj");
+        StringUtil[] expected = new StringUtil[]{};
+        assertEquals(Arrays.toString(expected), Arrays.toString(actual));
     }
 
     @Test
-    public void testSplitReturnsRmptyArrayWhenIn() {
-        StringUtil abc = new StringUtil("1");
-        StringUtil[] actual = abc.split(1);
-        assertEquals(Arrays.toString(new StringUtil[]{new StringUtil("1")}), Arrays.toString(actual));
+    public void testSplitReturnArrayWhenSizePartIsThree() {
+        StringUtil input = new StringUtil("a@-b@");
+        StringUtil[] actual = input.split(3);
+        StringUtil[] expected = new StringUtil[]{new StringUtil("a@-"), new StringUtil("b@")};
+        assertEquals(Arrays.toString(expected), Arrays.toString(actual));
     }
 
     @Test
-    public void testSizeWithEmptyStringUtil() {
+    public void testSplitReturnArrayWithCorrectSireReturnedArray() {
+        StringUtil input = new StringUtil("a@-b@");
+        StringUtil[] actual = input.split(3);
+        int expected = 2;
+        assertEquals(expected, actual.length);
+    }
+
+    @Test
+    public void testSplitReturnArrayWhenInputOneElementAndSizePartOne() {
+        StringUtil input = new StringUtil("1");
+        StringUtil[] actual = input.split(1);
+        StringUtil[] expected = new StringUtil[]{new StringUtil("1")};
+        assertEquals(Arrays.toString(expected), Arrays.toString(actual));
+    }
+
+
+    @Test
+    public void testSizeWhenStringUtilIsEmpty() {
         int actual = new StringUtil("").size();
         assertEquals(0, actual);
     }
 
     @Test
-    public void testSizeStringUtilWithString() {
+    public void testSizeWhenStringUtilIsNotEmpty() {
         int actual = new StringUtil(" qwerty ").size();
         assertEquals(8, actual);
     }
 
     @Test
-    public void testSizeStringUtilWithCharArray() {
-        char[] charArrays = new char[]{' ', 'c', 'h', 'a', 'r', ' '};
-        int actual = new StringUtil(charArrays).size();
-        assertEquals(6, actual);
-    }
-
-    @Test
-    public void testCharacterGetFirstElement() {
-        StringUtil a = new StringUtil("qwerty");
-        char actual = a.character(0);
+    public void testCharacterWhenGetFirstElement() {
+        StringUtil input = new StringUtil("qwerty");
+        char actual = input.character(0);
         assertEquals('q', actual);
     }
 
     @Test
-    public void testCharacterGetLastElement() {
-        StringUtil a = new StringUtil("q");
-        char actual = a.character(a.size() - 1);
+    public void testCharacterWhenGetLastElement() {
+        StringUtil input = new StringUtil("q");
+        char actual = input.character(input.size() - 1);
         assertEquals('q', actual);
     }
 
     @Test
     public void testAppendStringBufferData() {
-        StringUtil stringUtil = new StringUtil("qwerty");
-        StringUtil actual = stringUtil.append(new StringBuffer("asdfg"));
+        StringUtil input = new StringUtil("qwerty");
+        StringUtil actual = input.append(new StringBuffer("asdfg"));
         assertEquals("qwertyasdfg", actual.toString());
     }
 
     @Test
     public void testAppendEmptyStringBufferData() {
-        StringUtil stringUtil = new StringUtil("qwerty");
-        StringUtil actual = stringUtil.append(new StringBuffer(""));
+        StringUtil input = new StringUtil("qwerty");
+        StringUtil actual = input.append(new StringBuffer(""));
         assertEquals("qwerty", actual.toString());
     }
 
     @Test
     public void testPrependStringBufferData() {
-        StringUtil stringUtil = new StringUtil("qwerty");
-        StringUtil actual = stringUtil.prepend(new StringBuffer("asdfg"));
+        StringUtil input = new StringUtil("qwerty");
+        StringUtil actual = input.prepend(new StringBuffer("asdfg"));
         assertEquals("asdfgqwerty", actual.toString());
     }
 
-    @Test
-    public void testReverse() {
-        StringUtil stringUtil = new StringUtil("qwerty");
-        StringUtil actual = stringUtil.reverse();
-        assertEquals("ytrewq", actual.toString());
+    @ParameterizedTest
+    @ValueSource(strings = {"this", "is ", "ball", "implementation",})
+    public void testReverseWhenStringUtilHaveDifferentSize(String argument) {
+        StringUtil input = new StringUtil(argument);
+        StringUtil actual = input.reverse();
+        String expected = new String(new StringBuffer(argument).reverse());
+        assertEquals(expected, actual.toString());
     }
 
     @Test
-    public void testReverseEmpty() {
-        StringUtil stringUtil = new StringUtil("");
-        StringUtil actual = stringUtil.reverse();
+    public void testReverseWhenStringUtilIsEmpty() {
+        StringUtil input = new StringUtil("");
+        StringUtil actual = input.reverse();
         assertEquals("", actual.toString());
     }
 
     @ParameterizedTest
-    @EnumSource(Polindrome.class)
-    public void testReverseOneElement() {
+    @EnumSource(Palindrome.class)
+    public void testReverseWhenInStringUtilOneElement() {
         List<StringUtil> stringArray = new ArrayList<>();
         stringArray.add(new StringUtil(new char[]{'k'}));
         stringArray.add(new StringUtil(new char[]{'r'}));
         stringArray.add(new StringUtil(new char[]{'d'}));
 
-        assertAll(() -> assertEquals(Polindrome.k.toString(), stringArray.get(0).reverse().toString()),
-                () -> assertEquals(Polindrome.r.toString(), stringArray.get(1).reverse().toString()),
-                () -> assertEquals(Polindrome.d.toString(), stringArray.get(2).reverse().toString())
+        assertAll(() -> assertEquals(Palindrome.k.toString(), stringArray.get(0).reverse().toString()),
+                () -> assertEquals(Palindrome.r.toString(), stringArray.get(1).reverse().toString()),
+                () -> assertEquals(Palindrome.d.toString(), stringArray.get(2).reverse().toString())
         );
 
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"kayak", "rotator", "dad"})
-    public void testReversePalindromeParameterized(String polyndrom) {
-        StringUtil a = new StringUtil(polyndrom);
-        assertEquals(polyndrom, a.reverse().toString());
+    public void testReverseWhenStringUtilIsPalindrome(String palyndrom) {
+        StringUtil actual = new StringUtil(palyndrom);
+        assertEquals(palyndrom, actual.reverse().toString());
     }
 
     @Test
-    public void testReversePalindrome() {
-        List<StringUtil> stringArray = new ArrayList<>();
-        stringArray.add(new StringUtil("kayak"));
-        stringArray.add(new StringUtil("rotator"));
-        stringArray.add(new StringUtil("dad"));
-
-        assertAll(() -> assertEquals(stringArray.get(0).toString(), stringArray.get(0).reverse().toString()),
-                () -> assertEquals(stringArray.get(1).toString(), stringArray.get(1).reverse().toString()),
-                () -> assertEquals(stringArray.get(2).toString(), stringArray.get(2).reverse().toString())
-        );
+    public void testSetWhenStringUtilIsEmpty() {
+        StringUtil input = new StringUtil("");
+        StringUtil actual = input.set(0, 'a');
+        assertEquals("a", actual.toString());
     }
 
     @Test
-    public void testSet() {
-        StringUtil stringUtil = new StringUtil("qwerty");
-        StringUtil actual = stringUtil.set(5, 'a');
-        assertEquals("qwerta", actual.toString());
-    }
-
-    @Test
-    public void testUtil() throws Exception {
-        StringUtil stringUtil = new StringUtil("qwerty");
-        StringUtil actual = stringUtil.util(1, 5);
+    public void testUtilReturnCorrectSubstring() throws Exception {
+        StringUtil input = new StringUtil("qwerty");
+        StringUtil actual = input.util(1, 5);
         assertEquals("wert", actual.toString());
     }
 
