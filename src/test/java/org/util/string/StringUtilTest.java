@@ -21,6 +21,7 @@ public class StringUtilTest {
 
     // test<MethodName><Expectation><When>
     // testSplitReturnEmptyArrayWhenInputStringIsEmpty
+    //[Тестируемый метод]_[Сценарий]_[Ожидаемое поведение].
 
     @Test
     public void testSplitReturnArrayWhenSplitStringIsEmpty() {
@@ -63,7 +64,6 @@ public class StringUtilTest {
         assertEquals(Arrays.toString(expected), Arrays.toString(actual));
     }
 
-
     @Test
     public void testSizeWhenStringUtilIsEmpty() {
         int actual = new StringUtil("").size();
@@ -105,10 +105,32 @@ public class StringUtilTest {
     }
 
     @Test
+    public void testAppendNotChangeBaseObject() {
+        StringUtil input = new StringUtil("qwerty");
+        input.append("asdf");
+        assertEquals("qwerty", input.toString());
+    }
+
+    @Test
     public void testPrependStringBufferData() {
         StringUtil input = new StringUtil("qwerty");
         StringUtil actual = input.prepend(new StringBuffer("asdfg"));
         assertEquals("asdfgqwerty", actual.toString());
+    }
+
+    @Test
+    public void testPrependEmptyStringBufferData() {
+        StringUtil input = new StringUtil("qwerty");
+        StringUtil actual = input.append(new StringBuffer(""));
+        assertEquals("qwerty", actual.toString());
+    }
+
+    @Test
+    public void testPrependNotChangeBaseObject() {
+        StringUtil input = new StringUtil("qwerty");
+        input.prepend("asdf");
+        assertEquals("qwerty", input.toString());
+
     }
 
     @ParameterizedTest
@@ -161,8 +183,8 @@ public class StringUtilTest {
 
         assertAll("testing set first, last and central elements",
                 () -> assertEquals("svadrat", input.set(0, 's').toString()),
-                () -> assertEquals("kvadrad", input.set(input.size() - 1, 'd').toString()),
-                () -> assertEquals("kvanrat", input.set(input.size() / 2, 'n').toString())
+                () -> assertEquals("kvadrad", input.set(6, 'd').toString()),
+                () -> assertEquals("kvanrat", input.set(3, 'n').toString())
         );
     }
 
@@ -186,6 +208,16 @@ public class StringUtilTest {
         StringUtil actual = input.util(0, 1);
         assertEquals("q", actual.toString());
     }
+
+    @Test
+    public void testCharactersReturnCorrectCharacterArray() {
+        StringUtil input = new StringUtil("qwerty");
+        String actual = new String(input.characters(1, 4));
+        String expected = new String(new char[]{'w', 'e', 'r'});
+        assertEquals(expected, actual);
+    }
+
+    
 
 
 }
