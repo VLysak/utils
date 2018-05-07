@@ -217,7 +217,43 @@ public class StringUtilTest {
         assertEquals(expected, actual);
     }
 
-    
+    @Test
+    public void testInsertSubstringWhenBeginInsertFromTheStart() {
+        StringUtil input = new StringUtil("qwerty");
+        StringUtil actual = input.insert(0, "asd");
+        String expected = "asdqwerty";
+        assertEquals(expected, actual.toString());
+    }
 
+    @Test
+    public void testInsertSubstringWhenBeginInsertFromTheEnd() {
+        StringUtil input = new StringUtil("qwerty");
+        StringUtil actual = input.insert(6, "asd");
+        String expected = "qwertyasd";
+        assertEquals(expected, actual.toString());
+    }
 
+    @Test
+    public void testInsertSubstringWhenBeginInsertFromTheMiddle() {
+        StringUtil input = new StringUtil("qwerty");
+        StringUtil actual = input.insert(3, "asd");
+        String expected = "qweasdrty";
+        assertEquals(expected, actual.toString());
+    }
+
+    @Test
+    public void testInsertSubstringWhenInsertingSubstringIsEmpty() {
+        StringUtil input = new StringUtil("qwerty");
+        StringUtil actual = input.insert(5, "");
+        String expected = "qwerty";
+        assertEquals(expected, actual.toString());
+    }
+
+    @Test
+    public void testInsertSubstringWhenTargetStringIsEmpty() {
+        StringUtil input = new StringUtil("");
+        StringUtil actual = input.insert(0, "qwerty");
+        String expected = "qwerty";
+        assertEquals(expected, actual.toString());
+    }
 }
