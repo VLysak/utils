@@ -21,17 +21,14 @@ public class StringUtilTest {
     public void testSplitReturnArrayWhenSplitStringIsEmpty() {
         StringUtil stringUtil = new StringUtil("a@-");
         StringUtil[] actual = stringUtil.split("");
-        assertEquals("a", actual[0].toString());
-        assertEquals("@", actual[1].toString());
-        assertEquals("-", actual[2].toString());
+        assertEquals("[a@-]", Arrays.toString(actual));
     }
 
     @Test
     public void testSplitReturnEmptyArrayWhenInputStringIsEmpty() {
         StringUtil stringUtil = new StringUtil("");
         StringUtil[] actual = stringUtil.split("hjgj");
-        StringUtil[] expected = new StringUtil[]{};
-        assertEquals(Arrays.toString(expected), Arrays.toString(actual));
+        assertEquals("[]", Arrays.toString(actual));
     }
 
     @Test
@@ -59,8 +56,8 @@ public class StringUtilTest {
 
     @Test
     public void testSizeWhenStringUtilIsEmpty() {
-        int stringUtilSize = new StringUtil("").size();
-        assertEquals(0, stringUtilSize);
+        int actual = new StringUtil("").size();
+        assertEquals(0, actual);
     }
 
     @Test
@@ -79,19 +76,19 @@ public class StringUtilTest {
     @Test
     public void testCharacterWhenGetLastElement() {
         StringUtil stringUtil = new StringUtil("q");
-        char actual = stringUtil.character(stringUtil.size() - 1);
+        char actual = stringUtil.character(0);
         assertEquals('q', actual);
     }
 
     @Test
-    public void testAppendStringBufferData() {
+    public void testAppendWhenAddedStringBufferData() {
         StringUtil stringUtil = new StringUtil("qwerty");
         StringUtil actual = stringUtil.append(new StringBuffer("asdfg"));
         assertEquals("qwertyasdfg", actual.toString());
     }
 
     @Test
-    public void testAppendEmptyStringBufferData() {
+    public void testAppendWhenAddedEmptyStringBufferData() {
         StringUtil stringUtil = new StringUtil("qwerty");
         StringUtil actual = stringUtil.append(new StringBuffer(""));
         assertEquals("qwerty", actual.toString());
@@ -142,16 +139,12 @@ public class StringUtilTest {
         assertEquals("", actual.toString());
     }
 
-    @Test
-    public void testReverseWhenInStringUtilOneElement() {
+    @ParameterizedTest
+    @ValueSource(strings = {"k", "r", "d"})
+    public void testReverseWhenIntoStringUtilPutOneElement(String argument) {
         List<StringUtil> stringUtilArray = new ArrayList<>();
-        stringUtilArray.add(new StringUtil(new char[]{'k'}));
-        stringUtilArray.add(new StringUtil(new char[]{'r'}));
-        stringUtilArray.add(new StringUtil(new char[]{'d'}));
-
-        assertEquals("k", stringUtilArray.get(0).reverse().toString());
-        assertEquals("r", stringUtilArray.get(1).reverse().toString());
-        assertEquals("d", stringUtilArray.get(2).reverse().toString());
+        stringUtilArray.add(new StringUtil(argument));
+        assertEquals(argument, stringUtilArray.get(0).reverse().toString());
     }
 
     @ParameterizedTest
@@ -169,14 +162,21 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testSetElementsInDifferentPlaces() {
+    public void testSetElementIntoStartString() {
         StringUtil stringUtil = new StringUtil("kvadrat");
+        assertEquals("svadrat", stringUtil.set(0, 's').toString());
+    }
 
-        assertAll("testing set first, last and central elements",
-                () -> assertEquals("svadrat", stringUtil.set(0, 's').toString()),
-                () -> assertEquals("kvadrad", stringUtil.set(6, 'd').toString()),
-                () -> assertEquals("kvanrat", stringUtil.set(3, 'n').toString())
-        );
+    @Test
+    public void testSetElementIntoEndString() {
+        StringUtil stringUtil = new StringUtil("kvadrat");
+        assertEquals("kvadrad", stringUtil.set(6, 'd').toString());
+    }
+
+    @Test
+    public void testSetElementIntoMiddleString() {
+        StringUtil stringUtil = new StringUtil("kvadrat");
+        assertEquals("kvanrat", stringUtil.set(3, 'n').toString());
     }
 
     @Test
@@ -253,5 +253,23 @@ public class StringUtilTest {
         StringUtil stringUtil = new StringUtil("qwerty");
         StringUtil actual = stringUtil.clone();
         assertTrue(stringUtil.equals(actual));
+    }
+
+    @Test
+    public void testIsNumberWhenStringUtilComposedOfNumbers() {
+        StringUtil stringUtil = new StringUtil("123");
+        assertTrue(stringUtil.isNumber());
+    }
+
+    @Test
+    public void testIsNumberWhenStringUtilComposedOfNotOnlyNumbers() {
+        StringUtil stringUtil = new StringUtil("123asd");
+        assertFalse(stringUtil.isNumber());
+    }
+
+    @Test
+    public void testIsNumberWhenStringUtilIsEmpty() {
+        StringUtil stringUtil = new StringUtil("");
+        assertFalse(stringUtil.isNumber());
     }
 }
