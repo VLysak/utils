@@ -336,12 +336,16 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
     }
 
     public boolean isNumber() {
+        boolean bool = true;
         for (int i = 0; i < builder.length(); i++) {
             if (!Character.isDigit(builder.charAt(i))) {
-                return false;
+                bool = false;
             }
         }
-        return true;
+        if (size() == 0) {
+            bool = false;
+        }
+        return bool;
     }
 
     public boolean isBool() {
@@ -686,8 +690,13 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         String[] words = builder.toString().split(value);
         StringUtil[] arrUtil = new StringUtil[words.length];
 
-        for (int i = 0; i < words.length; i++) {
-            arrUtil[i] = new StringUtil(words[i]);
+        if (value.length() == 0 && size() != 0) {
+            arrUtil = new StringUtil[1];
+            arrUtil[0] = new StringUtil(builder);
+        } else {
+            for (int i = 0; i < words.length; i++) {
+                arrUtil[i] = new StringUtil(words[i]);
+            }
         }
         return arrUtil;
     }
