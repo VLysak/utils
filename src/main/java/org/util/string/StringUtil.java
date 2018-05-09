@@ -705,8 +705,13 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         String[] words = builder.toString().split(new String(value));
         StringUtil[] arrUtil = new StringUtil[words.length];
 
-        for (int i = 0; i < words.length; i++) {
-            arrUtil[i] = new StringUtil(words[i]);
+        if (value.length == 0 && size() != 0) {
+            arrUtil = new StringUtil[1];
+            arrUtil[0] = new StringUtil(builder);
+        } else {
+            for (int i = 0; i < words.length; i++) {
+                arrUtil[i] = new StringUtil(words[i]);
+            }
         }
         return arrUtil;
     }
@@ -715,19 +720,28 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         String[] words = builder.toString().split(new String(value));
         StringUtil[] arrUtil = new StringUtil[words.length];
 
-        for (int i = 0; i < words.length; i++) {
-            arrUtil[i] = new StringUtil(words[i]);
+        if (value.length() == 0 && size() != 0) {
+            arrUtil = new StringUtil[1];
+            arrUtil[0] = new StringUtil(builder);
+        } else {
+            for (int i = 0; i < words.length; i++) {
+                arrUtil[i] = new StringUtil(words[i]);
+            }
         }
         return arrUtil;
-
     }
 
     public StringUtil[] split(StringBuffer value) {
         String[] words = builder.toString().split(new String(value));
         StringUtil[] arrUtil = new StringUtil[words.length];
 
-        for (int i = 0; i < words.length; i++) {
-            arrUtil[i] = new StringUtil(words[i]);
+        if (value.length() == 0 && size() != 0) {
+            arrUtil = new StringUtil[1];
+            arrUtil[0] = new StringUtil(builder);
+        } else {
+            for (int i = 0; i < words.length; i++) {
+                arrUtil[i] = new StringUtil(words[i]);
+            }
         }
         return arrUtil;
     }
@@ -736,8 +750,13 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         String[] words = builder.toString().split(value.toString());
         StringUtil[] arrUtil = new StringUtil[words.length];
 
-        for (int i = 0; i < words.length; i++) {
-            arrUtil[i] = new StringUtil(words[i]);
+        if (value.size() == 0 && size() != 0) {
+            arrUtil = new StringUtil[1];
+            arrUtil[0] = new StringUtil(builder);
+        } else {
+            for (int i = 0; i < words.length; i++) {
+                arrUtil[i] = new StringUtil(words[i]);
+            }
         }
         return arrUtil;
     }
@@ -750,19 +769,24 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
      * @return
      */
     public StringUtil[] split(int sizePart) {
-        int sizeTemp = sizePart;
-        int count1 = size() % sizePart > 0 ? size() / sizePart + 1 : size() / sizePart;
-        int dif = sizePart * count1 - size();
-        StringUtil[] arrUtil = new StringUtil[count1];
+        if (sizePart == 0) {
+            throw new IllegalArgumentException("argument can't be zero ");
+        } else {
 
-        for (int i = 0, j = 0; j < count1; i = i + sizePart, sizeTemp += sizePart, j++) {
-            if (dif == 0) {
-                arrUtil[j] = util(i, sizeTemp);
-            } else {
-                arrUtil[j] = util(i, Math.min(sizeTemp, size()));
+            int sizeTemp = sizePart;
+            int count1 = size() % sizePart > 0 ? size() / sizePart + 1 : size() / sizePart;
+            int dif = sizePart * count1 - size();
+            StringUtil[] arrUtil = new StringUtil[count1];
+
+            for (int i = 0, j = 0; j < count1; i = i + sizePart, sizeTemp += sizePart, j++) {
+                if (dif == 0) {
+                    arrUtil[j] = util(i, sizeTemp);
+                } else {
+                    arrUtil[j] = util(i, Math.min(sizeTemp, size()));
+                }
             }
+            return arrUtil;
         }
-        return arrUtil;
     }
 
     // return substring with length 'length' starting from 0 pos
