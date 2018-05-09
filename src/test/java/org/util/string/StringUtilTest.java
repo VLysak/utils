@@ -343,4 +343,20 @@ public class StringUtilTest {
         StringUtil stringUtil = new StringUtil("");
         assertFalse(stringUtil.isNumber());
     }
+
+    @Test
+    public void testIsBoolWhenStringUtilContainsFalse(){
+        assertTrue(new StringUtil("false").isBool());
+    }
+
+    @Test
+    public void testIsBoolWhenStringUtilContainsTrue(){
+        assertTrue(new StringUtil("true").isBool());
+    }
+
+    @Test
+    public void testIsBoolWhenStringUtilContainNeitherFalseNorTrue(){
+        assertFalse(new StringUtil("asd").isBool());
+    }
+
 }
