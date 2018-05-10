@@ -343,4 +343,113 @@ public class StringUtilTest {
         StringUtil stringUtil = new StringUtil("");
         assertFalse(stringUtil.isNumber());
     }
+
+    @Test
+    public void testIsBoolWhenStringUtilContainsFalse(){
+        assertTrue(new StringUtil("false").isBool());
+    }
+
+    @Test
+    public void testIsBoolWhenStringUtilContainsTrue(){
+        assertTrue(new StringUtil("true").isBool());
+    }
+
+    @Test
+    public void testIsBoolWhenStringUtilContainNeitherFalseNorTrue(){
+        assertFalse(new StringUtil("asd").isBool());
+    }
+
+       @Test
+    public void testUtilReturnCorrectSubstring() throws Exception {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.util(1, 5);
+        assertEquals("wert", actual.toString());
+    }
+
+    @Test
+    public void testUtilReturnCorrectSubstringWithLastElement() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.util(5, 6);
+        assertEquals("y", actual.toString());
+    }
+
+    @Test
+    public void testUtilReturnCorrectSubstringWithFirstElement() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.util(0, 1);
+        assertEquals("q", actual.toString());
+    }
+
+    @Test
+    public void testCharactersReturnCorrectCharacterArray() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        String actual = new String(stringUtil.characters(1, 4));
+        String expected = new String(new char[]{'w', 'e', 'r'});
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testInsertSubstringWhenBeginInsertFromTheStart() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.insert(0, "asd");
+        String expected = "asdqwerty";
+        assertEquals(expected, actual.toString());
+    }
+
+    @Test
+    public void testInsertSubstringWhenBeginInsertFromTheEnd() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.insert(6, "asd");
+        String expected = "qwertyasd";
+        assertEquals(expected, actual.toString());
+    }
+
+    @Test
+    public void testInsertSubstringWhenBeginInsertFromTheMiddle() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.insert(3, "asd");
+        String expected = "qweasdrty";
+        assertEquals(expected, actual.toString());
+    }
+
+    @Test
+    public void testInsertSubstringWhenInsertingSubstringIsEmpty() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.insert(5, "");
+        String expected = "qwerty";
+        assertEquals(expected, actual.toString());
+    }
+
+    @Test
+    public void testInsertSubstringWhenTargetStringIsEmpty() {
+        StringUtil stringUtil = new StringUtil("");
+        StringUtil actual = stringUtil.insert(0, "qwerty");
+        String expected = "qwerty";
+        assertEquals(expected, actual.toString());
+    }
+
+    @Test
+    public void testCloneCheckCreatedWhenNewObjectTheSameOldObject() {
+        StringUtil stringUtil = new StringUtil("qwerty");
+        StringUtil actual = stringUtil.clone();
+        assertTrue(stringUtil.equals(actual));
+    }
+
+    @Test
+    public void testIsNumberWhenStringUtilComposedOfNumbers() {
+        StringUtil stringUtil = new StringUtil("123");
+        assertTrue(stringUtil.isNumber());
+    }
+
+    @Test
+    public void testIsNumberWhenStringUtilComposedOfNotOnlyNumbers() {
+        StringUtil stringUtil = new StringUtil("123asd");
+        assertFalse(stringUtil.isNumber());
+    }
+
+    @Test
+    public void testIsNumberWhenStringUtilIsEmpty() {
+        StringUtil stringUtil = new StringUtil("");
+        assertFalse(stringUtil.isNumber());
+    }
 }
