@@ -18,21 +18,21 @@ public class StringUtilTest {
     //[Тестируемый метод]_[Сценарий]_[Ожидаемое поведение].
 
     @Test
-    public void testSplitReturnArrayWhenSplitStringIsEmpty() {
+    public void testSplitWorkWithStringDataWhenSplitStringIsEmpty() {
         StringUtil stringUtil = new StringUtil("a@-");
         StringUtil[] actual = stringUtil.split("");
-        assertEquals("[a@-]", Arrays.toString(actual));
+        assertEquals("a@-", actual[0].toString());
     }
 
     @Test
-    public void testSplitReturnEmptyArrayWhenInputStringIsEmpty() {
+    public void testSplitWorkWithStringDataWhenInputStringIsEmpty() {
         StringUtil stringUtil = new StringUtil("");
         StringUtil[] actual = stringUtil.split("hjgj");
-        assertEquals("[]", Arrays.toString(actual));
+        assertEquals("", actual[0].toString());
     }
 
     @Test
-    public void testSplitReturnArrayWhenSizePartIsThree() {
+    public void testSplitWorkWithIntegerDataWhenSizePartIsThree() {
         StringUtil stringUtil = new StringUtil("a@-b@");
         StringUtil[] actual = stringUtil.split(3);
         assertEquals("a@-", actual[0].toString());
@@ -40,18 +40,89 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testSplitHasCorrectSizeWhenReturnedArray() {
+    public void testSplitWorkWithIntegerDataWhenQuantityOfElementsOfArrayIsTwo() {
         StringUtil stringUtil = new StringUtil("a@-b@");
         StringUtil[] actual = stringUtil.split(3);
         assertEquals(2, actual.length);
     }
 
     @Test
-    public void testSplitReturnArrayWhenInputOneElementAndSizePartOne() {
+    public void testSplitWorkWithIntegerDataWhenInputOneElementAndSizePartOne() {
         StringUtil stringUtil = new StringUtil("1");
         StringUtil[] actual = stringUtil.split(1);
-        StringUtil[] expected = new StringUtil[]{new StringUtil("1")};
-        assertEquals(Arrays.toString(expected), Arrays.toString(actual));
+        assertEquals("1", actual[0].toString());
+    }
+
+    @Test
+    public void testSplitWorkWithCharDataWhenSplitElementPresentInStringUtil() {
+        StringUtil stringUtil = new StringUtil("a@-b@");
+        StringUtil[] actual = stringUtil.split('@');
+        assertEquals("a", actual[0].toString());
+        assertEquals("-b", actual[1].toString());
+    }
+
+    @Test
+    public void testSplitWorkWithCharDataWhenSplitElementNotPresentInStringUtil() {
+        StringUtil stringUtil = new StringUtil("a@-b@");
+        StringUtil[] actual = stringUtil.split('d');
+        assertEquals("a@-b@", actual[0].toString());
+    }
+
+    @Test
+    public void testSplitWorkWithCharArrayDataWhenSplitElementPresentInStringUtil() {
+        StringUtil stringUtil = new StringUtil("a@-b@");
+        StringUtil[] actual = stringUtil.split(new char[]{'@', '-'});
+        assertEquals("a", actual[0].toString());
+        assertEquals("b@", actual[1].toString());
+    }
+
+    @Test
+    public void testSplitWorkWithCharArrayDataWhenSplitCharArrayIsEmpty() {
+        StringUtil stringUtil = new StringUtil("a@-b@");
+        StringUtil[] actual = stringUtil.split(new char[]{});
+        assertEquals("a@-b@", actual[0].toString());
+    }
+
+    @Test
+    public void testSplitWorkWithStringBuilderDataWhenStringBuilderIsContainData() {
+        StringUtil stringUtil = new StringUtil("a@-b@");
+        StringUtil[] actual = stringUtil.split(new StringBuilder("-b"));
+        assertEquals("a@", actual[0].toString());
+    }
+
+    @Test
+    public void testSplitWorkWithStringBuilderDataWhenStringBuilderIsEmpty() {
+        StringUtil stringUtil = new StringUtil("a@-b@");
+        StringUtil[] actual = stringUtil.split(new StringBuilder());
+        assertEquals("a@-b@", actual[0].toString());
+    }
+
+    @Test
+    public void testSplitWorkWithStringBufferDataWhenStringBufferIsContainData() {
+        StringUtil stringUtil = new StringUtil("a@-b@");
+        StringUtil[] actual = stringUtil.split(new StringBuffer("-b"));
+        assertEquals("a@", actual[0].toString());
+    }
+
+    @Test
+    public void testSplitWorkWithStringBufferDataWhenStringBufferIsEmpty() {
+        StringUtil stringUtil = new StringUtil("a@-b@");
+        StringUtil[] actual = stringUtil.split(new StringBuffer());
+        assertEquals("a@-b@", actual[0].toString());
+    }
+
+    @Test
+    public void testSplitWorkWithStringUtilDataWhenStringUtilIsContainData() {
+        StringUtil stringUtil = new StringUtil("a@-b@");
+        StringUtil[] actual = stringUtil.split(new StringUtil("-b"));
+        assertEquals("a@", actual[0].toString());
+    }
+
+    @Test
+    public void testSplitWorkWithStringUtilDataWhenStringUtilIsEmpty() {
+        StringUtil stringUtil = new StringUtil("a@-b@");
+        StringUtil[] actual = stringUtil.split(new StringUtil(""));
+        assertEquals("a@-b@", actual[0].toString());
     }
 
     @Test
