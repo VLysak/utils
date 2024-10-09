@@ -856,6 +856,14 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
         return builder.hashCode();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (builder.equals(obj))
+            return true;
+        else
+            return false;
+    }
+
     // this method group uses default
     // type
 
@@ -929,6 +937,7 @@ public class StringUtil implements Cloneable, Comparable<StringUtil>, Iterable<C
             str = toString().trim();
         } else if (trim == Trim.LEADING) {
             int j = 0;
+
             for (int i = 0; i < size(); i++) {
                 if (charArray[i] != ' ' && j == 0) {
                     j = i;
